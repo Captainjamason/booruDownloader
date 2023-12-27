@@ -1,0 +1,7 @@
+[package]
+name = "booruDownloader"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pgbar = "0.3.1"
