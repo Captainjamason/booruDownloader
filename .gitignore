@@ -72,5 +72,6 @@ _deps
 .ionide
 
 output/*
+images/*
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,c++,cmake
