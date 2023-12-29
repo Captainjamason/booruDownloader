@@ -4,6 +4,8 @@
 //      Copywrite 2023
 //            <3
 
+#include <iostream>
+
 namespace booruDownloader {
     class download {
         public:
