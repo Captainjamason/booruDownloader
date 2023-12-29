@@ -29,7 +29,7 @@ size_t writeImage(char *ptr, size_t size, size_t nmemb, void *userdata) {
 //    curl_easy_setopt(easy, CURLOPT_URL, "https://testbooru-cdn.donmai.us/original/3a/0e/3a0e769991323dcf9748adba9ab530dc.jpg"); // URL to download
 //    curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0"); // User agent, required for danbooru
 //    curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeImage); // Callback to write image
-//    //curl_easy_setopt(easy, CURLOPT_USERPWD, "Captainjamason:mU4ba6jikixpkNhiDDbTPnHL");   // Authenticate the user
+//    curl_easy_setopt(easy, CURLOPT_USERPWD, "User:Key");   // Authenticate the user
 //    curl_easy_perform(easy); // do the do
 //    curl_easy_cleanup(easy); // clean up
 //    return 0;
