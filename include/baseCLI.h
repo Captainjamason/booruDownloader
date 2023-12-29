@@ -25,5 +25,7 @@ namespace booruDownloader {
         public:
         void static noArgs();
         void static invalidArgs();
+        void static version(char* buildtype, float ver);
+        void static help();
     };
 }
