@@ -9,6 +9,7 @@
 
 using namespace booruDownloader;
 
+// Each one of these functions simply outputs the color code to the terminal, Its not pretty *but* it works. May be something to change in the future.
 int CLI::color::textRed() {
     std::cout << "\033[" << CLI::color::clrCode::fgRed << "m";
     return 0;

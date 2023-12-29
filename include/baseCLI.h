@@ -2,7 +2,7 @@
 //       baseCLI.h
 //       Jamason P Davis
 //       Copyright 2023
-//        <3
+//       <3
 
 namespace booruDownloader {
     class CLI {
@@ -22,5 +22,8 @@ namespace booruDownloader {
             int static textYellow();
             int static textBlue();
         };
+        public:
+        void static noArgs();
+        void static invalidArgs();
     };
 }
