@@ -4,10 +4,13 @@
 //       Copyright 2023
 //       <3
 
+#include <iostream>
+#include <string>
 namespace booruDownloader {
     class CLI {
         public:
         class color {
+            public:
             enum clrCode {
                 fgRed = 31,
                 fgGreen = 32,
@@ -16,16 +19,13 @@ namespace booruDownloader {
                 fgDefault = 39
             };
             public:
-            int static textRed();
-            int static textReset();
-            int static textGreen();
-            int static textYellow();
-            int static textBlue();
+            std::string static textSet(CLI::color::clrCode color);
+            std::string static textReset();
         };
         public:
         void static noArgs();
         void static invalidArgs();
-        void static version(char* buildtype, float ver);
+        void static version(std::string buildtype, float ver);
         void static help();
     };
 }

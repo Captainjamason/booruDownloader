@@ -13,14 +13,14 @@
 #include <string>
 
 float VERSION = 0.1;
-char* BUILDTYPE = "indev";
+std::string BUILDTYPE = "indev";
 
 using namespace booruDownloader;
 int main(int argc, char *argv[])
 {
     if(argc >= 2) {
         std::string string;
-        for(int i=1; argc = i; i++) {
+        for(int i=1; (argc = i); i++) {
             string = argv[i];
             if(string == "--version") {
                 CLI::version(BUILDTYPE, VERSION);
