@@ -28,6 +28,9 @@ int main(int argc, char *argv[])
             } else if(string == "-h" || string == "--help") {
                 CLI::help();
                 return 0;
+            } else if(string == "--debug-download") {
+                download::downloadImage("https://testbooru-cdn.donmai.us/original/3a/0e/3a0e769991323dcf9748adba9ab530dc.jpg");
+                return 0;
             } else {
                 break;
             }
