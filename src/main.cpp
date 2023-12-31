@@ -31,6 +31,16 @@ int main(int argc, char *argv[])
             } else if(string == "--debug-download") {
                 download::downloadImage("https://testbooru-cdn.donmai.us/original/3a/0e/3a0e769991323dcf9748adba9ab530dc.jpg");
                 return 0;
+            } else if(string == "-t" || string == "--tags") {
+                if(argv[i+1] != NULL) {
+                    std::string tags = argv[i+1];
+                    std::cout << tags << "\n";
+                    return 0;
+                }
+                else {
+                    CLI::noTags();
+                    return 1;
+                }
             } else {
                 break;
             }

@@ -28,5 +28,7 @@ namespace booruDownloader {
         void static invalidArgs();
         void static version(std::string buildtype, float ver);
         void static help();
+        void static download();
+        void static noTags();
     };
 }

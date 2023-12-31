@@ -13,6 +13,11 @@ void CLI::error() {
     std::cout << "[" << CLI::color::textSet(CLI::color::fgRed) << "ERROR" << CLI::color::textSet(CLI::color::clrCode::fgDefault) << "]\n";
 }
 
+void CLI::noTags() {
+    CLI::error();
+    std::cout << "No tags passed, Please enter a comma seperated list of tags to filter and download.\n";
+}
+
 void CLI::noArgs() {
     CLI::error();
     std::cout << "No arguments passed. Please use --help or -h\n";

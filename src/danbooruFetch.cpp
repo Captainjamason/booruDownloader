@@ -59,14 +59,25 @@ size_t dataFunc(void *ptr, size_t size, size_t nmemb, struct data *s) {
 }
 
 Json::Value danbooruFetch::fetchPosts(std::string tags[], int limit) {
+    struct data s;
+    initMem(&s);
     std::string url;
     url = buildUrl(tags);
+
     if(limit != 0) {
         url.append("&limit=");
         url.append(std::to_string(limit));
     }
+
     CURL *easy = curl_easy_init();
     curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
     curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+    curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, dataFunc);
+    curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
     curl_easy_perform(easy);
+
+    printf("%s\n", s.ptr);
+
+    free(s.ptr);
+    curl_easy_cleanup(easy);
 }
