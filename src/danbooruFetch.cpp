@@ -13,6 +13,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <string>
+#include <vector>
 #include "../include/danbooruFetch.h"
 #include "../include/baseCLI.h"
 using namespace booruDownloader;
@@ -33,14 +34,16 @@ void initMem(struct data *s) {
     s->ptr[0]='\0';
 }
 
-std::string buildUrl(std::string tags[]) {
+std::string buildUrl(std::vector<std::string> tags) {
     std::string url = "https://testbooru.donmai.us/posts.json";
     url.append("?tags=");
-    for(auto var : *tags) {
-        std::string tmp = &var;
-        url.append(tmp);
+    //int i = 0;
+    //while(tags.at(0) != "\0") {
+        url.append(tags.at(0));
         url.append("%20");
-    }
+        //i++;
+    //}
+    std::printf(url.c_str());
     return url;
 }
 
@@ -58,7 +61,7 @@ size_t dataFunc(void *ptr, size_t size, size_t nmemb, struct data *s) {
     return size*nmemb;
 }
 
-Json::Value danbooruFetch::fetchPosts(std::string tags[], int limit) {
+Json::Value danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     struct data s;
     initMem(&s);
     std::string url;
@@ -80,4 +83,5 @@ Json::Value danbooruFetch::fetchPosts(std::string tags[], int limit) {
 
     free(s.ptr);
     curl_easy_cleanup(easy);
+    exit(0);
 }

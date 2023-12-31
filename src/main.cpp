@@ -5,12 +5,16 @@
 //      <3
 
 #include "../include/download.h"
+#include "../include/danbooruFetch.h"
 #include "../include/baseCLI.h"
+#include <cstddef>
+#include <cstring>
 #include <iostream>
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <fstream>
 #include <string>
+#include <vector>
 
 float VERSION = 0.1;
 std::string BUILDTYPE = "indev";
@@ -33,8 +37,17 @@ int main(int argc, char *argv[])
                 return 0;
             } else if(string == "-t" || string == "--tags") {
                 if(argv[i+1] != NULL) {
-                    std::string tags = argv[i+1];
-                    std::cout << tags << "\n";
+                    std::cout << "Fetching posts with tag(s): " << argv[i+1] << "\n";
+                    std::vector<std::string> tags;
+                    char* tmp = argv[i+1];
+                    char* word;
+                    word = strtok(tmp, ",");
+                    while(word != NULL) {
+                        tags.push_back(word);
+                        word = strtok(NULL, ",");
+                        std::cout << word;
+                    }
+                    danbooruFetch::fetchPosts(tags, 1);
                     return 0;
                 }
                 else {
