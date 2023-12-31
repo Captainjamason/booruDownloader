@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <json/reader.h>
 #include <json/value.h>
 #include <json/json.h>
 #include <curl/curl.h>
@@ -79,7 +80,12 @@ Json::Value danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) 
     curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
     curl_easy_perform(easy);
 
-    printf("%s\n", s.ptr);
+    Json::Reader reader;
+    Json::Value data;
+    reader.parse(s.ptr, data);
+
+    std::cout << data["id"].asString() << "\n";
+    std::cout << data["large_file_url"].asString() << "\n";
 
     free(s.ptr);
     curl_easy_cleanup(easy);
