@@ -9,17 +9,17 @@
 #include <string>
 
 using namespace booruDownloader;
-void error() {
+void CLI::error() {
     std::cout << "[" << CLI::color::textSet(CLI::color::fgRed) << "ERROR" << CLI::color::textSet(CLI::color::clrCode::fgDefault) << "]\n";
 }
 
 void CLI::noArgs() {
-    error();
+    CLI::error();
     std::cout << "No arguments passed. Please use --help or -h\n";
 }
 
 void CLI::invalidArgs() {
-    error();
+    CLI::error();
     std::cout << "Invalid arguments passed. Please use --help or -h\n";
 }
 

@@ -23,6 +23,7 @@ namespace booruDownloader {
             std::string static textReset();
         };
         public:
+        void static error();
         void static noArgs();
         void static invalidArgs();
         void static version(std::string buildtype, float ver);

@@ -21,4 +21,4 @@ A lightweight cross-platform C++ program for downloading images in bulk from ima
 
 <3
 
-Copywrite 2023 - JPD/hurbIndustries
+Copyright 2023 - JPD/hurbIndustries
