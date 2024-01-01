@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
                         std::cout << word;
                     }
                     danbooruFetch::fetchPosts(tags, 1);
-                    return 0;
+                    return 1;
                 }
                 else {
                     CLI::noTags();
