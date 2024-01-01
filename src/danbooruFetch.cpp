@@ -18,6 +18,7 @@
 #include <vector>
 #include "../include/danbooruFetch.h"
 #include "../include/baseCLI.h"
+#include "../include/download.h"
 using namespace booruDownloader;
 
 std::string buildUrl(std::vector<std::string> tags) {
@@ -74,10 +75,10 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         //if(data.isMember("id"))
         //std::cout << data[i]["id"].asString();
     //}
-
-    std::cout << data[0]["id"] << "\n";
+    std::cout << data[0]["large_file_url"].asString() << "\n";
+    download::downloadImage(data[0]["large_file_url"].asString());
 
     //std::cout << data;
     //std::cout << data["id"].asString() << "\n";
-    //std::cout << data["large_file_url"] << "\n";
+    //std::cout << data[0]["large_file_url"] << "\n";
 }
