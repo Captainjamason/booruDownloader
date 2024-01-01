@@ -29,10 +29,15 @@ size_t writeImage(char *ptr, size_t size, size_t nmemb, void *userdata) {
 
 
 // Image download function
-int download::downloadImage(std::string url) {
+int download::downloadImage(std::string url, std::string filename, std::string file_ext) {
     std::cout << url << "\n";
+    filename.append(".");
+    filename.append(file_ext);
+    std::string fn = "./images/";
+    fn.append(filename);
+
     // Open file to write, This will need to be passed as an arg to the func.
-    FILE* fp = fopen("images/test.jpg", "wb");
+    FILE* fp = fopen(fn.c_str(), "wb");
     // If the file can't be opened/created just abort all together.
     if(!fp) {
         printf("Failed to create file\n");

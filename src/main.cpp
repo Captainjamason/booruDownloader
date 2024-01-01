@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
                 CLI::help();
                 return 0;
             } else if(string == "--debug-download") {
-                download::downloadImage("https://testbooru-cdn.donmai.us/original/3a/0e/3a0e769991323dcf9748adba9ab530dc.jpg");
                 return 0;
             } else if(string == "-t" || string == "--tags") {
                 if(argv[i+1] != NULL) {
@@ -48,7 +47,7 @@ int main(int argc, char *argv[])
                         //std::cout << word;
                     //}
                     tags.push_back(argv[2]);
-                    danbooruFetch::fetchPosts(tags, 1);
+                    danbooruFetch::fetchPosts(tags, 3);
                     return 0;
                 }
                 else {

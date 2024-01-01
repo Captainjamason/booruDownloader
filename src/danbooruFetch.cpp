@@ -4,8 +4,10 @@
 //      Copyright 2023
 //      <3
 
+#include <chrono>
 #include <cstddef>
 #include <cstdio>
+#include <ctime>
 #include <iostream>
 #include <json/forwards.h>
 #include <json/reader.h>
@@ -71,12 +73,20 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     std::string unparsed = s;
     reader.parse(s, data);
 
-    //for(Json::Value::ArrayIndex i=0; i != data.size(); i++) {
-        //if(data.isMember("id"))
-        //std::cout << data[i]["id"].asString();
-    //}
-    std::cout << data[0]["large_file_url"].asString() << "\n";
-    download::downloadImage(data[0]["large_file_url"].asString());
+    //std::cout << data;
+    //std::cout << data.size();
+
+    for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
+        if(data[i].isMember("large_file_url")) {
+            std::cout << data[i]["large_file_url"];
+            std::time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+            std::string ts = std::ctime(&t);
+            ts.resize(ts.size()-1);
+            download::downloadImage(data[i]["large_file_url"].asString(), ts, data[i]["file_ext"].asString());
+        }
+    }
+    //std::cout << data[0]["large_file_url"].asString() << "\n";
+    //download::downloadImage(data[0]["large_file_url"].asString());
 
     //std::cout << data;
     //std::cout << data["id"].asString() << "\n";
