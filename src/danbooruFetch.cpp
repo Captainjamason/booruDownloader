@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <iostream>
+#include <json/forwards.h>
 #include <json/reader.h>
 #include <json/value.h>
 #include <json/json.h>
@@ -62,14 +63,21 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         }
         curl_easy_cleanup(easy);
 
-        std::cout << s << "\n";
+        //std::cout << s << "\n";
     }
     Json::Reader reader;
     Json::Value data;
     std::string unparsed = s;
     reader.parse(s, data);
 
-    std::cout << data;
+    //for(Json::Value::ArrayIndex i=0; i != data.size(); i++) {
+        //if(data.isMember("id"))
+        //std::cout << data[i]["id"].asString();
+    //}
+
+    std::cout << data[0]["id"] << "\n";
+
+    //std::cout << data;
     //std::cout << data["id"].asString() << "\n";
-    std::cout << data["large_file_url"] << "\n";
+    //std::cout << data["large_file_url"] << "\n";
 }
