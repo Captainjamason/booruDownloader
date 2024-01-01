@@ -12,6 +12,8 @@
 #include <json/json.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include <new>
+#include <string>
 #include <vector>
 #include "../include/danbooruFetch.h"
 #include "../include/baseCLI.h"
@@ -29,38 +31,45 @@ std::string buildUrl(std::vector<std::string> tags) {
     return url;
 }
 
-size_t writeFunc(void *contents, size_t size, size_t nmemb, std::string s) {
-    std::fwrite(contents, size, nmemb, stdout);
-    s.append(static_cast<char *>(contents), size*nmemb);
+static std::string readBuffer;
+
+size_t writeFunc(void *contents, size_t size, size_t nmemb, void *userp) {
+    ((std::string*)userp)->append((char*)contents, size*nmemb);
     return size*nmemb;
 }
 
 void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     std::string url = buildUrl(tags);
+    CURLcode res;
+    std::string s;
 
     if(limit != 0) {
         url.append("&limit=");
         url.append(std::to_string(limit));
     }
 
-    std::string s;
-
     CURL *easy = curl_easy_init();
-    //curl_easy_setopt(easy, CURLOPT_VERBOSE, 1);
-    curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-    curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeFunc);
-    curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
-    curl_easy_perform(easy);
+    if(easy) {
+            //curl_easy_setopt(easy, CURLOPT_VERBOSE, 1);
+        curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+        curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeFunc);
+        curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
+        res = curl_easy_perform(easy);
 
+        if(res != CURLE_OK) {
+            std::cout << "curl_easy_perform() failed." << curl_easy_strerror(res);
+        }
+        curl_easy_cleanup(easy);
+
+        std::cout << s << "\n";
+    }
     Json::Reader reader;
     Json::Value data;
     std::string unparsed = s;
-    reader.parse(unparsed, data);
+    reader.parse(s, data);
 
-    std::cout << data.asCString();
-    std::cout << data["id"].asString() << "\n";
-    std::cout << data["large_file_url"].asString() << "\n";
-
-    curl_easy_cleanup(easy);
+    std::cout << data;
+    //std::cout << data["id"].asString() << "\n";
+    std::cout << data["large_file_url"] << "\n";
 }
