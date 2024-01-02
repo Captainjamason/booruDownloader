@@ -1,11 +1,10 @@
 //       booruDownloader 
-//        download.cpp
+//       download.cpp
 //       Jamason P Davis
-//       Copywrite 2023
-//             <3
+//       Copyright 2023
+//       <3
 
 #include "../include/download.h"
-#include <charconv>
 #include <iostream>
 #include <curl/curl.h>
 #include <curl/easy.h>
@@ -30,9 +29,12 @@ size_t writeImage(char *ptr, size_t size, size_t nmemb, void *userdata) {
 
 // Image download function
 int download::downloadImage(std::string url, std::string filename, std::string file_ext) {
+    // Temp debug output URL command, this will go away sooner or later... maybe...
     std::cout << url << "\n";
+    // This takes the filename (usually the danbooru post ID) and adds '.$(ext)' to it, making it usable, This may be extensible to videos aswell?
     filename.append(".");
     filename.append(file_ext);
+    // This adds `./images/` as being the primary download folder, I'd like this to be changed at some point in time to be user configurable.
     std::string fn = "./images/";
     fn.append(filename);
 
