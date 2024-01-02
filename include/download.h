@@ -9,6 +9,6 @@
 namespace booruDownloader {
     class download {
         public:
-        static int downloadImage(std::string url, std::string filename, std::string file_ext);
+        static int downloadImage(std::string url, std::string imgDir, std::string filename, std::string file_ext);
     };
 }

@@ -4,6 +4,7 @@
 //      Copyright 2023
 //      <3
 
+#include <filesystem>
 #include <iostream>
 #include <json/json.h>
 #include <curl/curl.h>
@@ -67,6 +68,24 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         // Cleanup
         curl_easy_cleanup(easy);
     }
+    // Check if the folder `./images/` exists.
+    std::string imgDir = "./images/";
+    if(std::filesystem::exists(imgDir) != true) {
+        std::filesystem::create_directory(imgDir);
+    }
+    // Iterate tags vector and append each one into the tagString
+    std::string tagString;
+    for(int i = 0; i < tags.size(); i++) {
+        tagString.append(tags[i]);
+        tagString.append("-");
+    }
+    // Same thing as above, but with the *new* imagedir string.
+    imgDir.append(tagString);
+    imgDir.append("/");
+    if(std::filesystem::exists(imgDir) != true) {
+        std::filesystem::create_directory(imgDir);
+    }
+
     // JSON time, Make a reader and data var.
     Json::Reader reader;
     Json::Value data;
@@ -76,7 +95,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
         if(data[i].isMember("large_file_url")) {
             std::cout << data[i]["large_file_url"];
-            download::downloadImage(data[i]["large_file_url"].asString(), data[i]["id"].asString(), data[i]["file_ext"].asString());
+            download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
         }
     }
 }
