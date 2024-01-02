@@ -10,7 +10,7 @@ A lightweight cross-platform C++ program for downloading images in bulk from ima
 * [ ] Gelbooru support.
 * [ ] Basic GUI done in `wxwidgets`
 * [ ] Multithreading
-* [ ] Sorting by `tag` or `character` into folders
+* [ ] Sorting by `tag` or `rating` into folders
 * [ ] Customizable config
 
 
