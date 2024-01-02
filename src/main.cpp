@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
                         //std::cout << word;
                     //}
                     tags.push_back(argv[2]);
-                    danbooruFetch::fetchPosts(tags, 3);
+                    danbooruFetch::fetchPosts(tags, 20);
                     return 0;
                 }
                 else {

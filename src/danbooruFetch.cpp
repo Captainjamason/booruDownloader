@@ -65,30 +65,15 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
             std::cout << "curl_easy_perform() failed." << curl_easy_strerror(res);
         }
         curl_easy_cleanup(easy);
-
-        //std::cout << s << "\n";
     }
     Json::Reader reader;
     Json::Value data;
     std::string unparsed = s;
     reader.parse(s, data);
-
-    //std::cout << data;
-    //std::cout << data.size();
-
     for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
         if(data[i].isMember("large_file_url")) {
             std::cout << data[i]["large_file_url"];
-            std::time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-            std::string ts = std::ctime(&t);
-            ts.resize(ts.size()-1);
-            download::downloadImage(data[i]["large_file_url"].asString(), ts, data[i]["file_ext"].asString());
+            download::downloadImage(data[i]["large_file_url"].asString(), data[i]["id"].asString(), data[i]["file_ext"].asString());
         }
     }
-    //std::cout << data[0]["large_file_url"].asString() << "\n";
-    //download::downloadImage(data[0]["large_file_url"].asString());
-
-    //std::cout << data;
-    //std::cout << data["id"].asString() << "\n";
-    //std::cout << data[0]["large_file_url"] << "\n";
 }
