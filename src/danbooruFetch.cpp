@@ -26,12 +26,10 @@ using namespace booruDownloader;
 std::string buildUrl(std::vector<std::string> tags) {
     std::string url = "https://testbooru.donmai.us/posts.json";
     url.append("?tags=");
-    //int i = 0;
-    //while(tags.at(0) != "\0") {
-        url.append(tags.at(0));
+    for(int i = 0; i < tags.size(); i++) {
+        url.append(tags[i]);
         url.append("%20");
-    //    i++;
-    //}
+    }
     return url;
 }
 

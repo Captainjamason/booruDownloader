@@ -13,6 +13,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <fstream>
+#include <iterator>
 #include <string>
 #include <vector>
 
@@ -32,22 +33,25 @@ int main(int argc, char *argv[])
             } else if(string == "-h" || string == "--help") {
                 CLI::help();
                 return 0;
-            } else if(string == "--debug-download") {
-                return 0;
-            } else if(string == "-t" || string == "--tags") {
+            }
+            else if(string == "-t" || string == "--tags") {
                 if(argv[i+1] != NULL) {
                     std::cout << "Fetching posts with tag(s): " << argv[i+1] << "\n";
                     std::vector<std::string> tags;
-                    //char* tmp = argv[i+1];
-                    //char* word;
-                    //word = strtok(tmp, ",");
-                    //while(word != NULL) {
-                        //tags.push_back(word);
-                        //word = strtok(NULL, ",");
-                        //std::cout << word;
-                    //}
-                    tags.push_back(argv[2]);
-                    danbooruFetch::fetchPosts(tags, 20);
+                    
+                    std::string s = argv[i+1];
+                    std::string delimiter = ",";
+                    size_t pos = 0;
+
+                    while((pos = s.find(delimiter)) != std::string::npos) {
+                        std::string token = s.substr(0, pos);
+                        //std::cout << token << std::endl;
+                        tags.push_back(token);
+                        s.erase(0, pos + delimiter.length());
+                    }
+                    //std::cout << s << std::endl;
+                    tags.push_back(s);
+                    danbooruFetch::fetchPosts(tags, 0);
                     return 0;
                 }
                 else {
