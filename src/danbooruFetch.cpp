@@ -45,23 +45,17 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     // Initialize the data string;
     int totalCount = 0;
     int pageCount = 1;
-    for(int iC = 1; iC != limit; iC++) {
+    bool noData = false;
+    for(int iC = 1; (iC != limit); iC++) {
         std::string s;
         std::string page = "&page=" + std::to_string(pageCount);
         int count = 0;
         if(pageCount > 1) {
-            url.replace(url.length()-page.length(), page.length(), page);
+            url.replace(url.length()-page.length()+1, page.length(), page);
         } else {
             url.append(page);
         }
         std::cout << url << "\n";
-
-
-        // If theres a limit, add that. CLI code has not been figured yet for this.
-        if(limit != 0) {
-            url.append("&limit=");
-            url.append(std::to_string(limit));
-        }
 
         // CURL! (we've been through this on download.cpp)
         CURL *easy = curl_easy_init();
@@ -104,17 +98,18 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         // Parse the data into the variable assigned above.
         reader.parse(s, data);
         // Check each item in the array retrieved from CURL above, Download each image file and save it.
-        if(count < 19) {
-            for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
+        if(count < 22) {
+            for(Json::Value::ArrayIndex i = 0; (i != data.size() || data.size() == 0); i++) {
                 if(data[i].isMember("large_file_url")) { 
-                    //std::cout << data[i]["large_file_url"] << "\n";
+                    std::cout << data[i]["large_file_url"] << "\n";
                     std::cout << totalCount << " " << count << " " << pageCount << " ";
                     download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
                     count++;
                     totalCount++;
                 } else {
-                    std::cout << "No URL found in retrieved data.";
-                    break;
+                    std::cout << "No URL found in retrieved data." << "\n";
+                    noData = true;
+                    exit(1);
                 }
             }
         }

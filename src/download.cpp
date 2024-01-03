@@ -31,7 +31,7 @@ size_t writeImage(char *ptr, size_t size, size_t nmemb, void *userdata) {
 // Image download function
 int download::downloadImage(std::string url, std::string imgDir, std::string filename, std::string file_ext) {
     // Temp debug output URL command, this will go away sooner or later... maybe...
-    std::cout << url << "\n";
+    //std::cout << url << "\n";
     // This takes the filename (usually the danbooru post ID) and adds '.$(ext)' to it, making it usable, This may be extensible to videos aswell?
     filename.append(".");
     filename.append(file_ext);
