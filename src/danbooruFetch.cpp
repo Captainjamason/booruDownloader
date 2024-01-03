@@ -6,7 +6,7 @@
 
 #include <filesystem>
 #include <iostream>
-#include <json/json.h>
+#include <jsoncpp/json/json.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <string>
@@ -44,58 +44,74 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     CURLcode res;
     // Initialize the data string;
     std::string s;
+    int totalCount = 0;
+    int pageCount = 1;
+    for(int i = 1; i != limit; i++) {
+        int count = 0;
+        url.append("&page=");
+        url.append(std::to_string(pageCount));
 
-    // If theres a limit, add that. CLI code has not been figured yet for this.
-    if(limit != 0) {
-        url.append("&limit=");
-        url.append(std::to_string(limit));
-    }
 
-    // CURL! (we've been through this on download.cpp)
-    CURL *easy = curl_easy_init();
-    if(easy) {
-        //curl_easy_setopt(easy, CURLOPT_VERBOSE, 1);       // Emergency "I BROKE SOMETHING" option.
-        curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-        curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeFunc);
-        curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
-        res = curl_easy_perform(easy);
-
-        // If unsuccessful then inform and throw an error.
-        if(res != CURLE_OK) {
-            std::cout << "curl_easy_perform() failed." << curl_easy_strerror(res);
+        // If theres a limit, add that. CLI code has not been figured yet for this.
+        if(limit != 0) {
+            url.append("&limit=");
+            url.append(std::to_string(limit));
         }
-        // Cleanup
-        curl_easy_cleanup(easy);
-    }
-    // Check if the folder `./images/` exists.
-    std::string imgDir = "./images/";
-    if(std::filesystem::exists(imgDir) != true) {
-        std::filesystem::create_directory(imgDir);
-    }
-    // Iterate tags vector and append each one into the tagString
-    std::string tagString;
-    for(int i = 0; i < tags.size(); i++) {
-        tagString.append(tags[i]);
-        tagString.append("-");
-    }
-    // Same thing as above, but with the *new* imagedir string.
-    imgDir.append(tagString);
-    imgDir.append("/");
-    if(std::filesystem::exists(imgDir) != true) {
-        std::filesystem::create_directory(imgDir);
-    }
 
-    // JSON time, Make a reader and data var.
-    Json::Reader reader;
-    Json::Value data;
-    // Parse the data into the variable assigned above.
-    reader.parse(s, data);
-    // Check each item in the array retrieved from CURL above, Download each image file and save it.
-    for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
-        if(data[i].isMember("large_file_url")) {
-            std::cout << data[i]["large_file_url"];
-            download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+        // CURL! (we've been through this on download.cpp)
+        CURL *easy = curl_easy_init();
+        if(easy) {
+            //curl_easy_setopt(easy, CURLOPT_VERBOSE, 1);       // Emergency "I BROKE SOMETHING" option.
+            curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+            curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeFunc);
+            curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
+            res = curl_easy_perform(easy);
+
+            // If unsuccessful then inform and throw an error.
+            if(res != CURLE_OK) {
+                std::cout << "curl_easy_perform() failed." << curl_easy_strerror(res);
+            }
+            // Cleanup
+            curl_easy_cleanup(easy);
         }
+        // Check if the folder `./images/` exists.
+        std::string imgDir = "./images/";
+        if(std::filesystem::exists(imgDir) != true) {
+            std::filesystem::create_directory(imgDir);
+        }
+        // Iterate tags vector and append each one into the tagString
+        std::string tagString;
+        for(int i = 0; i < tags.size(); i++) {
+            tagString.append(tags[i]);
+            tagString.append("-");
+        }
+        // Same thing as above, but with the *new* imagedir string.
+        imgDir.append(tagString);
+        imgDir.append("/");
+        if(std::filesystem::exists(imgDir) != true) {
+            std::filesystem::create_directory(imgDir);
+        }
+
+        // JSON time, Make a reader and data var.
+        Json::Reader reader;
+        Json::Value data;
+        // Parse the data into the variable assigned above.
+        reader.parse(s, data);
+        // Check each item in the array retrieved from CURL above, Download each image file and save it.
+        if(count < 19) {
+            for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
+                if(data[i].isMember("large_file_url")) {
+                    std::cout << data[i]["large_file_url"] << "\n";
+                    download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    count++;
+                    std::cout << totalCount << " " << count << " " << pageCount << " ";
+                } else {
+                    std::cout << "No URL found in retrieved data.";
+                    break;
+                }
+            }
+        }
+        pageCount++;
     }
 }
