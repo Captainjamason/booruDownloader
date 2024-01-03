@@ -46,10 +46,15 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     std::string s;
     int totalCount = 0;
     int pageCount = 1;
-    for(int i = 1; i != limit; i++) {
+    for(int iC = 1; iC != limit; iC++) {
+        std::string page = "&page=" + std::to_string(pageCount);
         int count = 0;
-        url.append("&page=");
-        url.append(std::to_string(pageCount));
+        if(pageCount > 1) {
+            url.replace(url.length(), -page.length(), page);
+        } else {
+            url.replace(url.length(), 1, page);
+        }
+        std::cout << url << "\n";
 
 
         // If theres a limit, add that. CLI code has not been figured yet for this.
@@ -101,11 +106,11 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         // Check each item in the array retrieved from CURL above, Download each image file and save it.
         if(count < 19) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
-                if(data[i].isMember("large_file_url")) {
-                    std::cout << data[i]["large_file_url"] << "\n";
+                if(data[i].isMember("large_file_url")) { 
+                    //std::cout << data[i]["large_file_url"] << "\n";
+                    std::cout << totalCount << " " << count << " " << pageCount << " ";
                     download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
                     count++;
-                    std::cout << totalCount << " " << count << " " << pageCount << " ";
                 } else {
                     std::cout << "No URL found in retrieved data.";
                     break;
