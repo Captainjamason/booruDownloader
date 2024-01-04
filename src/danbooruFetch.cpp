@@ -17,6 +17,14 @@
 #include "../include/download.h"
 using namespace booruDownloader;
 
+bool checkCount(int totalValue, int limit) {
+    if(totalValue = limit) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
@@ -38,9 +46,17 @@ size_t writeFunc(void *contents, size_t size, size_t nmemb, void *userp) {
     return size*nmemb;
 }
 
-void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
+void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::string rating) {
     // Build the URL.
     std::string url = buildUrl(tags);
+    if(rating != "") {
+        url.append("rating%3A");
+        url.append(rating);
+    }
+    if(limit > 0) {
+        url.append("&limit=");
+        url.append(std::to_string(limit));
+    }
     // Good practice, I should put this into downloadImage().
     CURLcode res;
     // Initialize the data string;
@@ -48,7 +64,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     int pageCount = 1;
     int failCount = 0;
     bool noData = false;
-    for(int iC = 1; (iC != limit); iC++) {
+for(int iC = 1; (iC != limit); iC++) {
         std::string s;
         std::string page = "&page=" + std::to_string(pageCount);
         int count = 0;
@@ -103,6 +119,9 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         if(count < 22) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
                 if(data[i].isMember("large_file_url")) { 
+                    if(checkCount(totalCount, limit) == true) {
+                        exit(1);
+                    }
                     std::cout << data[i]["large_file_url"] << "\n";
                     std::cout << totalCount << " " << count << " " << pageCount << " ";
                     download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
@@ -115,4 +134,5 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         }
         pageCount++;
     }
+    exit(0);
 }

@@ -11,6 +11,6 @@
 namespace booruDownloader {
     class danbooruFetch {
         public:
-        void static fetchPosts(std::vector<std::string> tags, int limit);
+        void static fetchPosts(std::vector<std::string> tags, int limit, std::string rating);
     };
 }
