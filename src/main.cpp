@@ -51,8 +51,15 @@ int main(int argc, char *argv[])
                   limit = std::stoi(args[i+1]);
                 } else
                 if (args[i] == "-r" || args[i] == "--rating") {
-                    rating = args[i+1];
-                    std::cout << "Rating set to: " << rating << "\n";
+                    if(args[i+1] == "general" || args[i+1] == "questionable" || args[i+1] == "sensitive" || args[i+1] == "explicit") {
+                        rating = args[i+1];
+                        std::cout << "Rating set to: " << rating << "\n";
+                    } else {
+                        CLI::error();
+                        std::cout << "Invalid rating." << "\n";
+                        return 1;
+                    }
+                    
                 } else
                 if (args[i] == "-t" || args[i] == "--tags") {
                     if(args[i+1] != "") {
@@ -75,7 +82,7 @@ int main(int argc, char *argv[])
                         CLI::noTags();
                         return 1;
                     }
-                }
+                }  
             }
         }
     } else {
