@@ -6,8 +6,8 @@
 
 // Project Includes
 #include "../include/download.h"
-#include "../include/danbooruFetch.h"
-#include "../include/baseCLI.h"
+#include "../include/danbooru.h"
+#include "../include/cli.h"
 #include <codecvt>
 #include <iostream>
 #include <curl/curl.h>

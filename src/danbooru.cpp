@@ -1,10 +1,9 @@
 //      booruDownloader 
-//      danbooruFetch.cpp
+//      danbooru.cpp
 //      Jamason P Davis
 //      Copyright 2023
 //      <3
 
-#include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <json/json.h>
@@ -12,23 +11,15 @@
 #include <curl/easy.h>
 #include <string>
 #include <vector>
-#include "../include/danbooruFetch.h"
-#include "../include/baseCLI.h"
+#include "../include/danbooru.h"
+#include "../include/cli.h"
 #include "../include/download.h"
 using namespace booruDownloader;
-
-bool checkCount(int totalValue, int limit) {
-    if(totalValue = limit) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
-    std::string url = "https://danbooru.donmai.us/posts.json";
+    std::string url = "https://testbooru.donmai.us/posts.json";
     // Start formatting for the tags to be inserted into the URL.
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
@@ -98,7 +89,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
             tagString.append("-");
         }
 
-        if(rating == "explicit" || rating == "general") {
+        if(rating == "general" || rating == "questionable" || rating == "sensitive" || rating == "explicit")  {
             if(std::filesystem::exists(imgDir+rating)!= true) {
                 std::filesystem::create_directory(imgDir+rating);
                 std::filesystem::create_directory(imgDir+rating+"/"+tagString);
@@ -132,8 +123,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
                     if(limit >= 1 && totalCount == limit) {
                         exit(0);
                     }
-                    std::cout << data[i]["large_file_url"] << "\n";
-                    std::cout << totalCount << " " << count << " " << pageCount << " ";
+                    std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["large_file_url"] << "\n";
                     download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
                     count++;
                     totalCount++;

@@ -1,5 +1,5 @@
 //      booruDownloader 
-//      danbooruFetch.h
+//      danbooru.h
 //      Jamason P Davis
 //      Copyright 2023
 //      <3

@@ -1,5 +1,5 @@
 //       booruDownloader 
-//       baseCLI.h
+//       cli.h
 //       Jamason P Davis
 //       Copyright 2023
 //       <3
@@ -22,13 +22,13 @@ namespace booruDownloader {
             std::string static textSet(CLI::color::clrCode color);
             std::string static textReset();
         };
+        class commands {
+            void static help();
+            void static version();
+        };
         public:
         void static error();
-        void static noArgs();
-        void static invalidArgs();
-        void static version(std::string buildtype, std::string ver);
-        void static help();
-        void static download();
-        void static noTags();
+        void static info();
+        std::string static colorizeText(std::string str, CLI::color::clrCode clr);
     };
 }
