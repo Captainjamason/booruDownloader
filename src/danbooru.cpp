@@ -66,6 +66,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
         if(easy) {
             //curl_easy_setopt(easy, CURLOPT_VERBOSE, 1);       // Emergency "I BROKE SOMETHING" option.
             curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
+            //curl_easy_setopt(easy, CURLOPT_USERPWD, "User:Key");      // Authenticate the user, Will need to be in a config for changing the API key.
             curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
             curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeFunc);
             curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
