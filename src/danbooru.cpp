@@ -49,6 +49,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
     // Initialize the data string;
     int totalCount = 0;
     int pageCount = 1;
+    int errorCount = 0;
     for(int iC = 1; (iC != limit); iC++) {
         std::string s;
         std::string page = "&page=" + std::to_string(pageCount);
@@ -96,6 +97,9 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
                 imgDir.append(rating+"/"+tagString+"/");
                 std::cout << imgDir << "\n";
             } else {
+                if(std::filesystem::exists(imgDir+rating+"/"+tagString) != true) {
+                    std::filesystem::create_directory(imgDir+rating+"/"+tagString);
+                }
                 imgDir.append(rating+"/"+tagString+"/");
                 std::cout << imgDir << "\n";
             }
@@ -106,8 +110,19 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
                 imgDir.append("uncatagorized/"+tagString+"/");
                 std::cout << imgDir <<  "\n";
             } else {
+                if(std::filesystem::exists(imgDir+"uncatagorized/"+tagString) != true) {
+                    std::filesystem::create_directory(imgDir+"uncatagorized/"+tagString);
+                }
                 imgDir.append("uncatagorized/"+tagString+"/");
                 std::cout << imgDir << "\n";
+            }
+        }
+
+        if(s == "[]") {
+            if(errorCount = 5){
+                exit(0);
+            } else {
+                errorCount++;
             }
         }
         
