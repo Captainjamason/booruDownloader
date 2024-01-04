@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
             if(args[i] == "-h" || args[i] == "--help") {
                     CLI::commands::help();
                     return 0;
-                } else {
+                } else
                 if(args[i] == "--version") {
                     CLI::commands::version(BUILDTYPE, VERSION);
                     return 0;
@@ -59,13 +59,12 @@ int main(int argc, char *argv[])
                         std::cout << "Invalid rating." << "\n";
                         return 1;
                     }
-                    
                 } else
                 if (args[i] == "-t" || args[i] == "--tags") {
                     if(args[i+1] != "") {
                         std::cout << "Fetching Posts with tag(s): " << args[i+1] << "\n";
                         std::vector<std::string> tags;
-                        std::string s = argv[i+1];
+                        std::string s = args[i+1];
                         std::string delimiter = ",";
                         size_t pos = 0;
                         while((pos = s.find(delimiter)) != std::string::npos) {
@@ -74,11 +73,9 @@ int main(int argc, char *argv[])
                             s.erase(0, pos + delimiter.length());
                         }
                         tags.push_back(s);
-                        danbooruFetch::fetchPosts(tags, limit, rating);
-                        return 0;
+                        danbooruFetch::fetchPosts(tags, limit, rating);   
                     }
                 }  
-            }
         }
     }
 }

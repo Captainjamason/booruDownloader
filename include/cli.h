@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 namespace booruDownloader {
     class CLI {
         public:

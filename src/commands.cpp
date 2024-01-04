@@ -5,7 +5,9 @@
 //      <3
 
 #include <iostream>
+#include <vector>
 #include "../include/cli.h"
+#include "../include/danbooru.h"
 
 using namespace booruDownloader;
 void CLI::commands::help() {
