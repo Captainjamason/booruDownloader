@@ -97,13 +97,29 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
             tagString.append(tags[i]);
             tagString.append("-");
         }
-        // Same thing as above, but with the *new* imagedir string.
-        imgDir.append(tagString);
-        imgDir.append("/");
-        if(std::filesystem::exists(imgDir) != true) {
-            std::filesystem::create_directory(imgDir);
-        }
 
+        if(rating == "explicit" || rating == "general") {
+            if(std::filesystem::exists(imgDir+rating)!= true) {
+                std::filesystem::create_directory(imgDir+rating);
+                std::filesystem::create_directory(imgDir+rating+"/"+tagString);
+                imgDir.append(rating+"/"+tagString+"/");
+                std::cout << imgDir << "\n";
+            } else {
+                imgDir.append(rating+"/"+tagString+"/");
+                std::cout << imgDir << "\n";
+            }
+        } else {
+            if(std::filesystem::exists(imgDir+"uncatagorized/") != true) {
+                std::filesystem::create_directory(imgDir+"uncatagorized/");
+                std::filesystem::create_directory(imgDir+"uncatagorized/"+tagString);
+                imgDir.append("uncatagorized/"+tagString+"/");
+                std::cout << imgDir <<  "\n";
+            } else {
+                imgDir.append("uncatagorized/"+tagString+"/");
+                std::cout << imgDir << "\n";
+            }
+        }
+        
         // JSON time, Make a reader and data var.
         Json::Reader reader;
         Json::Value data;

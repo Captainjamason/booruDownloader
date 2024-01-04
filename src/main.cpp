@@ -18,7 +18,7 @@
 
 // These variables are hard source linked vars defining if its indev or release.
 // TODO: Move these to a seperate config that is loaded on runtime, allowing for more flexibility.
-float VERSION = 0.1;
+std::string VERSION = "0.1.1";
 std::string BUILDTYPE = "indev";
 
 // Call booruDownloader namespace.

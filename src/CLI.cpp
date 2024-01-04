@@ -43,7 +43,7 @@ void CLI::invalidArgs() {
 }
 
 // I'm not really sure how I managed to make this somewhat readable? atleast it looks pretty (i think).
-void CLI::version(std::string buildtype, float ver) {
+void CLI::version(std::string buildtype, std::string ver) {
     std::cout << "[" << CLI::color::textSet(CLI::color::fgBlue) << "booruDownloader" << CLI::color::textReset() << "]\n"
     << buildtype << " " << ver << "\n"
     << "Made by Jamason 'Captainjamason' Davis\n"
