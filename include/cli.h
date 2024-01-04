@@ -22,9 +22,11 @@ namespace booruDownloader {
             std::string static textSet(CLI::color::clrCode color);
             std::string static textReset();
         };
+        public:
         class commands {
+            public:
             void static help();
-            void static version();
+            void static version(std::string buildtype, std::string version);
         };
         public:
         void static error();

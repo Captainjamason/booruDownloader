@@ -40,11 +40,11 @@ int main(int argc, char *argv[])
         for(int i=1; (i<=args.size()); i++) {
             std::cout << "arg: " << args[i] << "\n";
             if(args[i] == "-h" || args[i] == "--help") {
-                    CLI::help();
+                    CLI::commands::help();
                     return 0;
                 } else {
                 if(args[i] == "--version") {
-                    CLI::version(BUILDTYPE, VERSION);
+                    CLI::commands::version(BUILDTYPE, VERSION);
                     return 0;
                 } else
                 if(args[i] == "-l" || args[i] == "--limit") {
@@ -77,16 +77,8 @@ int main(int argc, char *argv[])
                         danbooruFetch::fetchPosts(tags, limit, rating);
                         return 0;
                     }
-                    // call noTags if `-t` was called without adding a list.
-                    else {
-                        CLI::noTags();
-                        return 1;
-                    }
                 }  
             }
         }
-    } else {
-        CLI::noArgs();
-        return 1;
     }
 }
