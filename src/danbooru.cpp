@@ -6,7 +6,7 @@
 
 #include <filesystem>
 #include <iostream>
-#include <json/json.h>
+#include <jsoncpp/json/json.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <string>
@@ -119,13 +119,13 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
             }
         }
 
-        if(s == "[]") {
-            if(errorCount = 5){
-                exit(0);
-            } else {
-                errorCount++;
-            }
-        }
+        //if(s == "[]") {
+            //if(errorCount = 5){
+                //exit(0);
+            //} else {
+                //errorCount++;
+            //}
+        //}
         
         // JSON time, Make a reader and data var.
         Json::Reader reader;
@@ -144,7 +144,13 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
                     count++;
                     totalCount++;
                 } else {
-                    std::cout << "No URL found in retrieved data." << "\n";
+                    if(limit >= 1 && totalCount == limit) {
+                        exit(0);
+                    }
+                    std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["source"] << "\n";
+                    download::downloadImage(data[i]["source"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    count++;
+                    totalCount++;
                 }
             }
         }
