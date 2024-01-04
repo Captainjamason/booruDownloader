@@ -92,8 +92,11 @@ clean:
 	$(RM) $(OUTPUTMAIN)
 	$(RM) $(call FIXPATH,$(OBJECTS))
 	$(RM) $(call FIXPATH,$(DEPS))
+	sudo rm /usr/local/bin/boorudownloader
 	@echo Cleanup complete!
 
 run: all
 	./$(OUTPUTMAIN)
 	@echo Executing 'run: all' complete!
+install: all
+	sudo cp ./output/boorudownloader /usr/local/bin

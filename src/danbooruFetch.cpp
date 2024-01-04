@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <string>
@@ -20,7 +20,7 @@ using namespace booruDownloader;
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
-    std::string url = "https://testbooru.donmai.us/posts.json";
+    std::string url = "https://danbooru.donmai.us/posts.json";
     // Start formatting for the tags to be inserted into the URL.
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
@@ -101,7 +101,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
         reader.parse(s, data);
         // Check each item in the array retrieved from CURL above, Download each image file and save it.
         if(count < 22) {
-            for(Json::Value::ArrayIndex i = 0; (i != data.size() || data.size() == 0); i++) {
+            for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
                 if(data[i].isMember("large_file_url")) { 
                     std::cout << data[i]["large_file_url"] << "\n";
                     std::cout << totalCount << " " << count << " " << pageCount << " ";
@@ -110,10 +110,6 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
                     totalCount++;
                 } else {
                     std::cout << "No URL found in retrieved data." << "\n";
-                    failCount++;
-                    if(failCount = 5) {
-                        exit(1);
-                    }
                 }
             }
         }
