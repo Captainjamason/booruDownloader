@@ -53,18 +53,12 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
         url.append("rating%3A");
         url.append(rating);
     }
-    if(limit > 0) {
-        url.append("&limit=");
-        url.append(std::to_string(limit));
-    }
     // Good practice, I should put this into downloadImage().
     CURLcode res;
     // Initialize the data string;
     int totalCount = 0;
     int pageCount = 1;
-    int failCount = 0;
-    bool noData = false;
-for(int iC = 1; (iC != limit); iC++) {
+    for(int iC = 1; (iC != limit); iC++) {
         std::string s;
         std::string page = "&page=" + std::to_string(pageCount);
         int count = 0;
@@ -119,8 +113,8 @@ for(int iC = 1; (iC != limit); iC++) {
         if(count < 22) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
                 if(data[i].isMember("large_file_url")) { 
-                    if(checkCount(totalCount, limit) == true) {
-                        exit(1);
+                    if(limit >= 1 && totalCount == limit) {
+                        exit(0);
                     }
                     std::cout << data[i]["large_file_url"] << "\n";
                     std::cout << totalCount << " " << count << " " << pageCount << " ";

@@ -26,7 +26,7 @@ using namespace booruDownloader;
 int main(int argc, char *argv[])
 {
     std::string rating;
-    int limit;
+    int limit = 0;
     // If there is more or equal to 2 arguments (including filename) then iterate to figure what commands were called.
     // TODO: Clean this up, its kinda gross, I don't like iterating all of this with if-else statements.
     if(argc > 1) {
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
                             s.erase(0, pos + delimiter.length());
                         }
                         tags.push_back(s);
-                        danbooruFetch::fetchPosts(tags, 0, rating);
+                        danbooruFetch::fetchPosts(tags, limit, rating);
                         return 0;
                     }
                     // call noTags if `-t` was called without adding a list.
