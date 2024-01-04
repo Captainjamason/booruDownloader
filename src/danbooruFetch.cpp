@@ -4,6 +4,7 @@
 //      Copyright 2023
 //      <3
 
+#include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <jsoncpp/json/json.h>
@@ -45,6 +46,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
     // Initialize the data string;
     int totalCount = 0;
     int pageCount = 1;
+    int failCount = 0;
     bool noData = false;
     for(int iC = 1; (iC != limit); iC++) {
         std::string s;
@@ -108,8 +110,10 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit) {
                     totalCount++;
                 } else {
                     std::cout << "No URL found in retrieved data." << "\n";
-                    noData = true;
-                    exit(1);
+                    failCount++;
+                    if(failCount = 5) {
+                        exit(1);
+                    }
                 }
             }
         }
