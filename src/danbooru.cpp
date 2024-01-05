@@ -20,7 +20,7 @@ using namespace booruDownloader;
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
-    std::string url = "https://danbooru.donmai.us/posts.json";
+    std::string url = "https://testbooru.donmai.us/posts.json";
     // Start formatting for the tags to be inserted into the URL.
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
