@@ -10,6 +10,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <string>
+#include <thread>
 #include <vector>
 #include "../include/danbooru.h"
 #include "../include/cli.h"
@@ -19,7 +20,7 @@ using namespace booruDownloader;
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
-    std::string url = "https://testbooru.donmai.us/posts.json";
+    std::string url = "https://danbooru.donmai.us/posts.json";
     // Start formatting for the tags to be inserted into the URL.
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
@@ -135,12 +136,42 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
         // Check each item in the array retrieved from CURL above, Download each image file and save it.
         if(count < 22) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
-                if(data[i].isMember("large_file_url")) { 
+                if(data[i].isMember("source_url")) { 
                     if(limit >= 1 && totalCount == limit) {
                         exit(0);
                     }
                     std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["large_file_url"] << "\n";
-                    download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t1 (download::downloadImage,data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t2 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t3 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t4 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t5 (download::downloadImage,data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t6 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t7 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    std::thread t8 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+
+                    t1.join();
+                    count++;
+                    totalCount++;
+                    t2.join();
+                    count++;
+                    totalCount++;
+                    t3.join();
+                    count++;
+                    totalCount++;
+                    t4.join();                                                        
+                    count++;
+                    totalCount++;
+                    t5.join();
+                    count++;
+                    totalCount++;
+                    t6.join();
+                    count++;
+                    totalCount++;
+                    t7.join();
+                    count++;
+                    totalCount++;
+                    t8.join();                                                        
                     count++;
                     totalCount++;
                 } else {
@@ -148,7 +179,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
                         exit(0);
                     }
                     std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["source"] << "\n";
-                    download::downloadImage(data[i]["source"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
+                    download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
                     count++;
                     totalCount++;
                 }
