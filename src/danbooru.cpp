@@ -21,7 +21,7 @@ using namespace booruDownloader;
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
     std::string url = "https://testbooru.donmai.us/posts.json";
-    // Start formatting for the tags to be inserted into the URL.
+    // Start formatting for the tags to be inserted into the URLgo
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
     for(int i = 0; i < tags.size(); i++) {
@@ -56,7 +56,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
         std::string page = "&page=" + std::to_string(pageCount);
         int count = 0;
         if(pageCount > 1) {
-            url.replace(url.length()-page.length()+1, page.length(), page);
+            url.replace(url.length()-page.length(), page.length(), page);
         } else {
             url.append(page);
         }
