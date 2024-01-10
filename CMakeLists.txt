@@ -3,6 +3,8 @@ project(boorudownloader)
 
 add_executable(boorudownloader src/main.cpp src/termcolor.cpp src/termFuncs.cpp src/download.cpp src/danbooru.cpp src/commands.cpp)
 
+install(TARGETS boorudownloader DESTINATION bin)
+
 target_include_directories(boorudownloader PRIVATE include)
 
 target_link_libraries(boorudownloader jsoncpp curl)
