@@ -51,23 +51,24 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
     int totalCount = 0;
     int pageCount = 1;
     int errorCount = 0;
+    std::string downUrl;
     for(int iC = 1; (iC != limit); iC++) {
         std::string s;
         std::string page = "&page=" + std::to_string(pageCount);
         int count = 0;
         if(pageCount > 1) {
-            url.replace(url.length()-page.length()-1+std::to_string(pageCount).length(), page.length(), "");
-            url.append(page);
+            downUrl.replace(url.length(), page.length(), page);
         } else {
-            url.append(page);
+            downUrl.append(url);
+            downUrl.append(page);
         }
-        std::cout << url << "\n";
+        std::cout << downUrl << "\n";
 
         // CURL! (we've been through this on download.cpp)
         CURL *easy = curl_easy_init();
         if(easy) {
             //curl_easy_setopt(easy, CURLOPT_VERBOSE, 1);       // Emergency "I BROKE SOMETHING" option.
-            curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(easy, CURLOPT_URL, downUrl.c_str());
             //curl_easy_setopt(easy, CURLOPT_USERPWD, "User:Key");      // Authenticate the user, Will need to be in a config for changing the API key.
             curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
             curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeFunc);
