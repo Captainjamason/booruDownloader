@@ -20,7 +20,7 @@ using namespace booruDownloader;
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
-    std::string url = "https://testbooru.donmai.us/posts.json";
+    std::string url = "https://danbooru.donmai.us/posts.json";
     // Start formatting for the tags to be inserted into the URLgo
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
@@ -56,7 +56,8 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
         std::string page = "&page=" + std::to_string(pageCount);
         int count = 0;
         if(pageCount > 1) {
-            url.replace(url.length()-page.length(), page.length(), page);
+            url.replace(url.length()-page.length()-1+std::to_string(pageCount).length(), page.length(), "");
+            url.append(page);
         } else {
             url.append(page);
         }
@@ -67,7 +68,7 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
         if(easy) {
             //curl_easy_setopt(easy, CURLOPT_VERBOSE, 1);       // Emergency "I BROKE SOMETHING" option.
             curl_easy_setopt(easy, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(easy, CURLOPT_USERPWD, "Captainjamason:mU4ba6jikixpkNhiDDbTPnHL");      // Authenticate the user, Will need to be in a config for changing the API key.
+            //curl_easy_setopt(easy, CURLOPT_USERPWD, "User:Key");      // Authenticate the user, Will need to be in a config for changing the API key.
             curl_easy_setopt(easy, CURLOPT_USERAGENT, "libcurl-agent/1.0");
             curl_easy_setopt(easy, CURLOPT_WRITEFUNCTION, writeFunc);
             curl_easy_setopt(easy, CURLOPT_WRITEDATA, &s);
