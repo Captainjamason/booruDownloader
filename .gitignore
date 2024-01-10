@@ -75,3 +75,5 @@ credentials.txt
 output/*
 images/*
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,c++,cmake
+
+build/*
