@@ -8,6 +8,7 @@
 #include "../include/download.h"
 #include "../include/danbooru.h"
 #include "../include/cli.h"
+#include "../include/config.h"
 #include <iostream>
 #include <curl/curl.h>
 #include <curl/easy.h>
@@ -26,6 +27,19 @@ int main(int argc, char *argv[])
     std::string outputDir;
     std::string rating;
     int limit = 0;
+
+    // Basic configuration loading and handling, Exmaple configuration will be mocked up and added to installation commands.
+    int configRes = config::loadConfig();
+    if(configRes == 1) {
+        CLI::error();
+        std::cout << "Invalid configuration syntax. Exiting.\n";
+        return 1;
+    } else if(configRes == 2) {
+        CLI::error();
+        std::cout << "Could not find a suitable configuration file. Please verify installation.\n";
+        return 1;
+    }
+
     // If there is more or equal to 2 arguments (including filename) then iterate to figure what commands were called.
     // TODO: Clean this up, its kinda gross, I don't like iterating all of this with if-else statements.
     if(argc > 1) {
