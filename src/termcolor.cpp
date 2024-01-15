@@ -5,7 +5,6 @@
 //      <3
 
 #include "../include/cli.h"
-#include "iostream"
 #include <string>
 
 using namespace booruDownloader;

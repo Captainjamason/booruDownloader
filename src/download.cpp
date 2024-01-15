@@ -5,11 +5,8 @@
 //       <3
 
 #include "../include/download.h"
-#include <filesystem>
-#include <iostream>
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include <fstream>
 #include <string>
 using namespace booruDownloader;
 

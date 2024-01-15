@@ -5,7 +5,6 @@
 //      <3
 
 #include <iostream>
-#include <vector>
 #include "../include/cli.h"
 #include "../include/danbooru.h"
 
@@ -22,5 +21,6 @@ void CLI::commands::help() {
 void::CLI::commands::version(std::string buildtype, std::string version) {
     std::cout<<"["<<CLI::colorizeText("booruDownloader", CLI::color::fgBlue)<<"]\n"
     <<buildtype<<" "<<version<<"\n"
+    <<"Please use -h or --help for a list of commands\n"
     <<CLI::colorizeText("<3", CLI::color::fgRed)<<"\n";
 }
