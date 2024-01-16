@@ -4,8 +4,8 @@ A lightweight cross-platform C++ program for downloading images in bulk from ima
 
 ### Planned Features:
 
-* [ ] CLI Interface.
-* [ ] Fledged Build System with `cmake`
+* [X] CLI Interface.
+* [X] Fledged Build System with `cmake`
 * [ ] Full Danbooru support.
 * [ ] Gelbooru support.
 * [ ] Basic GUI done in `wxwidgets`
@@ -21,4 +21,4 @@ A lightweight cross-platform C++ program for downloading images in bulk from ima
 
 <3
 
-Copyright 2023 - JPD/hurbIndustries
+Copyright 2024 - JPD/hurbIndustries
