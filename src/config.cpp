@@ -41,7 +41,8 @@ int config::loadConfig() {
     Json::Reader reader;
     Json::Value data;
 
-    if(reader.parse(file, data)) {
+    reader.parse(file, data);
+    if(data["user"] != "") {
         return 0;
     } else {
         return 1;
