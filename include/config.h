@@ -5,10 +5,12 @@
 //      <3
 
 #include <iostream>
+#include <jsoncpp/json/value.h>
 
 namespace booruDownloader {
     class config {
         public:
-        static int loadConfig();
+        static Json::Value loadConfig();
+        static std::string loginData(Json::Value conf);
     };
 }

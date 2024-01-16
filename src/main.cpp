@@ -12,6 +12,7 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include <jsoncpp/json/value.h>
 #include <string>
 #include <vector>
 
@@ -29,14 +30,10 @@ int main(int argc, char *argv[])
     int limit = 0;
 
     // Basic configuration loading and handling, Exmaple configuration will be mocked up and added to installation commands.
-    int configRes = config::loadConfig();
-    if(configRes == 1) {
+    Json::Value config = config::loadConfig();
+    if(config == NULL) {
         CLI::error();
-        std::cout << "Invalid configuration syntax. Exiting.\n";
-        return 1;
-    } else if(configRes == 2) {
-        CLI::error();
-        std::cout << "Could not find a suitable configuration file. Please verify installation.\n";
+        std::cout << "Invalid configuration syntax or no configuration file found. Exiting.\n";
         return 1;
     }
 
@@ -77,6 +74,7 @@ int main(int argc, char *argv[])
                 }
             } else
             if(args[i] == "-o" || args[i] == "--out") {
+                
             } else
             if(args[i] == "-t" || args[i] == "--tags") {
                 if(args[i+1] != "") {

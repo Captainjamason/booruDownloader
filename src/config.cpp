@@ -7,11 +7,12 @@
 #include <filesystem>
 #include <fstream>
 #include <jsoncpp/json/json.h>
+#include <jsoncpp/json/value.h>
 #include "../include/config.h"
 
 using namespace booruDownloader;
 
-int config::loadConfig() {
+Json::Value config::loadConfig() {
     std::string path;
     // Check home folder first and foremost.
     if(std::filesystem::exists("~/.config/boorudownloader/config")) {
@@ -31,20 +32,17 @@ int config::loadConfig() {
     } 
     // If nothing is found, Return error code 2 and let main.cpp handle the rest.
     else {
-        return 2;
+        return NULL;
     }
 
     // Open up the file and attempt to parse JSON data from it.
     std::ifstream file;
     file.open(path);
 
-    Json::Reader reader;
     Json::Value data;
+    Json::Reader reader;
 
+    // Sanity Check // 
     reader.parse(file, data);
-    if(data["user"] != "") {
-        return 0;
-    } else {
-        return 1;
-    }
+    return data;
 }
