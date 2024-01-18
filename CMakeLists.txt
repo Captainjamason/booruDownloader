@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.27) # Note, This is the most recent cmake version, I have not tested anything older...
 project(boorudownloader)
+set(CMAKE_CXX_STANDARD 17)
 
 add_custom_target(installScript ALL
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
