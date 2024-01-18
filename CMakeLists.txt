@@ -17,6 +17,16 @@ add_executable(boorudownloader
     src/config.cpp
 )
 
+set(CMAKE_TOOLCHAIN_FILE ./vcpkg/scripts/buildsystems/vcpkg.cmake)
+if(WIN32)
+    include_directories(./vcpkg/installed/x64-windows/include)
+    link_directories(./vcpkg/installed/x64-windows/lib)
+endif(WIN32)
+if(LINUX)
+    include_directories(./vcpkg/installed/x64-linux/include)
+    link_directories(./vcpkg/installed/x64-linux/lib)
+endif(LINUX)
+
 install(TARGETS boorudownloader DESTINATION bin)
 
 target_include_directories(boorudownloader PRIVATE include)
