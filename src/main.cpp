@@ -18,7 +18,7 @@
 
 // These variables are hard source linked vars defining if its indev or release.
 // TODO: Move these to a seperate config that is loaded on runtime, allowing for more flexibility.
-std::string VERSION = "0.1.2";
+std::string VERSION = "0.1.3";
 std::string BUILDTYPE = "indev";
 
 // Call booruDownloader namespace.
@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
             args.push_back(argv[i]);
         }
         for(int i=1; (i<=args.size()); i++) {
-            std::cout << "arg: " << args[i] << "\n";
             if(args[i] == "-h" || args[i] == "--help") {
                 CLI::commands::help();
                 return 0;

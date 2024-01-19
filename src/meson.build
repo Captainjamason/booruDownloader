@@ -12,4 +12,5 @@ boorudownloader = executable('boorudownloader',
     source_files,
     include_directories : inc,
     dependencies : [curl_dep, jsoncpp_dep],
+    install : true
     )
