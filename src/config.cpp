@@ -30,10 +30,6 @@ Json::Value config::loadConfig() {
     if (std::filesystem::exists("./config.conf")) {
         path = "./config.conf";
     } 
-    // If nothing is found, Return error code 2 and let main.cpp handle the rest.
-    else {
-        return NULL;
-    }
 
     // Open up the file and attempt to parse JSON data from it.
     std::ifstream file;

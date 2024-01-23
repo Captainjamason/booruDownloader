@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     // Basic configuration loading and handling, Exmaple configuration will be mocked up and added to installation commands.
     Json::Value config = config::loadConfig();
-    if(config == NULL) {
+    if(config) {
         CLI::error();
         std::cout << "Invalid configuration syntax or no configuration file found. Exiting.\n";
         return 1;
