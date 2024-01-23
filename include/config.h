@@ -5,7 +5,7 @@
 //      <3
 
 #include <iostream>
-#include <jsoncpp/json/value.h>
+#include <json/value.h>
 
 namespace booruDownloader {
     class config {

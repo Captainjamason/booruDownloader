@@ -12,7 +12,7 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include <jsoncpp/json/value.h>
+#include <json/value.h>
 #include <string>
 #include <vector>
 

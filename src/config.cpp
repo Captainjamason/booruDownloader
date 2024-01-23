@@ -6,8 +6,8 @@
 
 #include <filesystem>
 #include <fstream>
-#include <jsoncpp/json/json.h>
-#include <jsoncpp/json/value.h>
+#include <json/json.h>
+#include <json/value.h>
 #include "../include/config.h"
 
 using namespace booruDownloader;
