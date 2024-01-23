@@ -78,3 +78,4 @@ images/*
 
 build/*
 .cache/*
+*.sw
