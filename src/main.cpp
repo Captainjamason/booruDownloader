@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
                     danbooruFetch::fetchPosts(tags, limit, rating);   
                 } else {
                     CLI::error();
-                    std::cout << "No tags provided, Please provide a comma seperated list of tags.";
+                    std::cout << "No tags provided, Please provide a comma seperated list of tags.\n";
                     return 1;
                 }
             } else {
@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
             }
         }
     } else {
-        CLI::commands::help();
+        CLI::error();
+	std::cout << "No arguments provided. Please use -h or --help for list of options.\n";
     }
 }
