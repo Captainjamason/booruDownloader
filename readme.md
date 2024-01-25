@@ -18,6 +18,7 @@ A lightweight cross-platform C++ program for downloading images in bulk from ima
 
 * `libcurl >= 8.5.0`
 * `jsoncpp >= 1.9.5`
+* `clang >= 17` (Primary compiler choice, May work with GCC)
 
 ### Build Instructions
 - Clone the repository.
