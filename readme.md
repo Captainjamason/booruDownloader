@@ -24,11 +24,15 @@ A lightweight cross-platform C++ program for downloading images in bulk from ima
 
 ### Build Instructions
 - Clone the repository.
-- `meson setup build && cd build`
-- `meson compile`
+  Easy way (under development):
+  - `./install.sh`
+  Manual Route:
+  - `meson setup build && cd build`
+  - `meson compile`
+  Output will be in `build/src/boorudownloader`.
 
-Output will be in `build/src/boorudownloader`.
-
+Cleanup:
+  - `./install.sh --clean` OR `rm -rf ./build/`
 --- 
 
 <3
