@@ -20,7 +20,9 @@ fi
 
 if [[ $OSTYPE == freebsd* ]]; then
 	echo "OS: FreeBSD, setting CC to clang17..."
-	export CC=clang17 
+	export CC=clang17
+	echo "setting CXX to clang++17"
+	export CXX=clang++17
 fi
 
 if ! [ -d ./build/ ]; then
