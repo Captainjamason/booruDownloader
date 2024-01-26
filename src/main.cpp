@@ -25,6 +25,7 @@ std::string BUILDTYPE = "indev";
 using namespace booruDownloader;
 int main(int argc, char *argv[])
 {
+    bool conf_testBooru = false;
     std::string outputDir;
     std::string rating;
     int limit = 0;
@@ -32,6 +33,10 @@ int main(int argc, char *argv[])
     // Basic configuration loading and handling, Exmaple configuration will be mocked up and added to installation commands.
     Json::Value conf = config::loadConfig();
     std::cout << conf["user"] << "\n";
+    if(conf["testbooru"].asBool()) {
+        std::cout << "Using Testbooru.\n";
+        conf_testBooru = true;
+    }
     if(argc > 1) {
         // Iterate args.
         std::vector<std::string> args;
@@ -81,7 +86,7 @@ int main(int argc, char *argv[])
                         s.erase(0, pos + delimiter.length());
                     }
                     tags.push_back(s);
-                    danbooruFetch::fetchPosts(tags, limit, rating);   
+                    danbooruFetch::fetchPosts(conf_testBooru, tags, limit, rating);   
                 } else {
                     CLI::error();
                     std::cout << "No tags provided, Please provide a comma seperated list of tags.\n";

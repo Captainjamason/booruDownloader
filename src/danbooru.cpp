@@ -18,9 +18,13 @@
 using namespace booruDownloader;
 
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
-std::string buildUrl(std::vector<std::string> tags) {
-    // This will be replaced with standard danbooru once we have some semblance of stability.
-    std::string url = "https://testbooru.donmai.us/posts.json";
+std::string buildUrl(bool testStatus, std::vector<std::string> tags) {
+    std::string url;
+    if(testStatus) {
+        url = "https://testbooru.donmai.us/posts.json";
+    } else {
+        url = "https://danbooru.donmai.us/posts.json";
+    } 
     // Start formatting for the tags to be inserted into the URLgo
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
@@ -38,9 +42,9 @@ size_t writeFunc(void *contents, size_t size, size_t nmemb, void *userp) {
     return size*nmemb;
 }
 
-void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::string rating) {
+void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, int limit, std::string rating) {
     // Build the URL.
-    std::string url = buildUrl(tags);
+    std::string url = buildUrl(testStatus, tags);
     if(rating != "") {
         url.append("rating%3A");
         url.append(rating);

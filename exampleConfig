@@ -1,6 +1,8 @@
 {
     "user":{
-        "name":"Test",
-        "key":"abcdefg12345"
-    }
-}
+        "name": "Test",
+        "key": "abcdefg12345"
+    },
+    "testbooru": true
+}    
+
