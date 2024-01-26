@@ -20,7 +20,7 @@ using namespace booruDownloader;
 // This function is responsible for taking the vector with tags and making it a parsable string up ahead.
 std::string buildUrl(std::vector<std::string> tags) {
     // This will be replaced with standard danbooru once we have some semblance of stability.
-    std::string url = "https://danbooru.donmai.us/posts.json";
+    std::string url = "https://testbooru.donmai.us/posts.json";
     // Start formatting for the tags to be inserted into the URLgo
     url.append("?tags=");
     // Iterate the vector, pop each one onto the url with a seperation character.
@@ -76,9 +76,16 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
             res = curl_easy_perform(easy);
 
             // If unsuccessful then inform and throw an error.
-            if(res != CURLE_OK) {
+            if(res == CURLE_OK) {
+                long response;
+                curl_easy_getinfo(easy, CURLINFO_RESPONSE_CODE, &response);
+                if(response == 404) {
+                    exit(1);
+                }
+            } else {
                 std::cout << "curl_easy_perform() failed." << curl_easy_strerror(res);
             }
+
             // Cleanup
             curl_easy_cleanup(easy);
         }
@@ -127,6 +134,13 @@ void danbooruFetch::fetchPosts(std::vector<std::string> tags, int limit, std::st
         Json::Value data;
         // Parse the data into the variable assigned above.
         reader.parse(s, data);
+
+        // Temporary - Check parsed data to find out if it is an empty page, if so exit.
+
+        if(!data[0]) {
+            exit(1);
+        }
+
         // Check each item in the array retrieved from CURL above, Download each image file and save it.
         if(count < 22) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
