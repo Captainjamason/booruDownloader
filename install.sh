@@ -36,7 +36,14 @@ meson compile
 if [[  $1 == "--only-build" ]];  then
 	echo "All done."
 else
-	echo "Installing the /usr/local/bin/, Requiring elevation to install."
+	echo "Installing, Requiring elevation to install to /usr/local/bin/ and /etc/."
 	sudo cp ./src/boorudownloader /usr/local/bin/boorudownloader
+	if ! [ -d /etc/boorudownloader ]; then
+		sudo mkdir /etc/boorudownloader
+	fi
+	if ! [ -f /etc/boorudownloader ]; then
+		sudo cp ../exampleConfig /etc/boorudownloader/config
+	fi
 	echo "Installed!"
+	echo "Please copy example configuration from /etc/boorudownloader/config to ~/.config/boorDownloader/config"
 fi

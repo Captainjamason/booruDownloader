@@ -14,23 +14,22 @@ using namespace booruDownloader;
 
 Json::Value config::loadConfig() {
     std::string path;
+    std::string homePath = getenv("HOME");
     // Check home folder first and foremost.
-    if(std::filesystem::exists("~/.config/boorudownloader/config")) {
-        path = "~/.config/booruDownloader/config";
+    if(std::filesystem::exists(homePath+"/.config/booruDownloader/config")) {
+        path = homePath+"/.config/booruDownloader/config";
     } else
-    // Check the alternative home config location. 
-    if (std::filesystem::exists("~/.config/boorudownloader.conf")) {
-        path = "~/.config/booruDownloader.conf";
-    } else 
-    // Check for the default configuration file in /etc/ (This will need to be fixed for cross platform usage.)
-    if (std::filesystem::exists("/etc/boorudownloader/config")) {
+    // Check the alternate home config
+    if(std::filesystem::exists(homePath+"/.config/booruDownloader.conf")) {
+        path = homePath+"/.config/booruDownloader.conf";
+    } else
+    // Check in /etc/ aka use example conf. 
+    if(std::filesystem::exists("/etc/booruDownloader/config")) {
+        std::cout << "Using example configuration in /etc/booruDownloader/config...\n";
         path = "/etc/booruDownloader/config";
-    } else 
-    // Check for portable configuration setup, This is required to be in the same folder as the binary to run.
-    if (std::filesystem::exists("./config.conf")) {
-        path = "./config.conf";
-    } 
-
+    } else {
+        return 1;
+    }
     // Open up the file and attempt to parse JSON data from it.
     std::ifstream file;
     file.open(path);
@@ -39,6 +38,9 @@ Json::Value config::loadConfig() {
     Json::Reader reader;
 
     // Sanity Check // 
-    reader.parse(file, data);
-    return data;
+    if(reader.parse(file, data)) {
+        return data;
+    } else {
+        exit(1);
+    }
 }

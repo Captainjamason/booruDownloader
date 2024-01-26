@@ -30,15 +30,8 @@ int main(int argc, char *argv[])
     int limit = 0;
 
     // Basic configuration loading and handling, Exmaple configuration will be mocked up and added to installation commands.
-    Json::Value config = config::loadConfig();
-    if(config) {
-        CLI::error();
-        std::cout << "Invalid configuration syntax or no configuration file found. Exiting.\n";
-        return 1;
-    }
-
-    // If there is more or equal to 2 arguments (including filename) then iterate to figure what commands were called.
-    // TODO: Clean this up, its kinda gross, I don't like iterating all of this with if-else statements.
+    Json::Value conf = config::loadConfig();
+    std::cout << conf["user"] << "\n";
     if(argc > 1) {
         // Iterate args.
         std::vector<std::string> args;
