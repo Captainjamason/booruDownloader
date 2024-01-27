@@ -18,7 +18,7 @@
 
 // These variables are hard source linked vars defining if its indev or release.
 // TODO: Move these to a seperate config that is loaded on runtime, allowing for more flexibility.
-std::string VERSION = "0.1.3";
+std::string VERSION = "0.1.2";
 std::string BUILDTYPE = "indev";
 
 // Call booruDownloader namespace.
@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
 
     // Basic configuration loading and handling, Exmaple configuration will be mocked up and added to installation commands.
     Json::Value conf = config::loadConfig();
-    std::cout << conf["user"] << "\n";
     if(conf["testbooru"].asBool()) {
         std::cout << "Using Testbooru.\n";
         conf_testBooru = true;
