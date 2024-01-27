@@ -27,6 +27,11 @@ Json::Value config::loadConfig() {
     if(std::filesystem::exists("/etc/booruDownloader/config")) {
         std::cout << "Using example configuration in /etc/booruDownloader/config...\n";
         path = "/etc/booruDownloader/config";
+    } else 
+    // Check local directory, Useful for portable installs.
+    if(std::filesystem::exists("/etc/booruDownloader/config")) {
+        std::cout << "Using example configuration located in the executable folder. (aka Portable)";
+        path = "./config.json";
     } else {
         return 1;
     }
