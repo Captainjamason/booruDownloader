@@ -172,7 +172,6 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
                     std::filesystem::create_directory(imgDir+rating);
                     std::filesystem::create_directory(imgDir+rating+"/"+tagString);
                     imgDir.append(rating+"/"+tagString+"/");
-                    std::cout << imgDir << "\n";
                 } else {
                     if(std::filesystem::exists(imgDir+rating+"/"+tagString) != true) {
                         std::filesystem::create_directory(imgDir+rating+"/"+tagString);
