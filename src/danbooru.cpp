@@ -96,7 +96,6 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
             curl_easy_cleanup(easy);
         }
         // Check if the folder `./images/` exists.
-        std::string imgDir = "./images/";
         if(std::filesystem::exists(imgDir) != true) {
             std::filesystem::create_directory(imgDir);
         }
@@ -168,6 +167,7 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
                 }
 
                 // NEW FOLDER SANITIZATION CODE
+                std::string imgDir = "./images/";
                 if(std::filesystem::exists(imgDir+rating)!= true) {
                     std::filesystem::create_directory(imgDir+rating);
                     std::filesystem::create_directory(imgDir+rating+"/"+tagString);
