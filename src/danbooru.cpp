@@ -49,8 +49,24 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
         url.append("rating%3A");
         url.append(rating);
     }
+
     // Good practice, I should put this into downloadImage().
     CURLcode res;
+
+    // RATING SANITIZATION CODE
+    if(rating == "g") {
+        rating = "general";
+    }
+    if(rating == "s") {
+        rating = "sensitive";
+    }
+    if(rating == "q") {
+        rating = "questionable";
+    }
+    if(rating == "e") {
+        rating = "explicit";
+    }
+
     // Initialize the data string;
     int totalCount = 0;
     int pageCount = 1;
@@ -104,34 +120,36 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
             tagString.append(tags[i]);
             tagString.append("-");
         }
+        
 
-        if(rating == "general" || rating == "questionable" || rating == "sensitive" || rating == "explicit")  {
-            if(std::filesystem::exists(imgDir+rating)!= true) {
-                std::filesystem::create_directory(imgDir+rating);
-                std::filesystem::create_directory(imgDir+rating+"/"+tagString);
-                imgDir.append(rating+"/"+tagString+"/");
-                std::cout << imgDir << "\n";
-            } else {
-                if(std::filesystem::exists(imgDir+rating+"/"+tagString) != true) {
-                    std::filesystem::create_directory(imgDir+rating+"/"+tagString);
-                }
-                imgDir.append(rating+"/"+tagString+"/");
-                std::cout << imgDir << "\n";
-            }
-        } else {
-            if(std::filesystem::exists(imgDir+"uncatagorized/") != true) {
-                std::filesystem::create_directory(imgDir+"uncatagorized/");
-                std::filesystem::create_directory(imgDir+"uncatagorized/"+tagString);
-                imgDir.append("uncatagorized/"+tagString+"/");
-                std::cout << imgDir <<  "\n";
-            } else {
-                if(std::filesystem::exists(imgDir+"uncatagorized/"+tagString) != true) {
-                    std::filesystem::create_directory(imgDir+"uncatagorized/"+tagString);
-                }
-                imgDir.append("uncatagorized/"+tagString+"/");
-                std::cout << imgDir << "\n";
-            }
-        }
+        // OLD OBSOLETE RATING CODE, This is kept purely for debugging purposes. Remove before any release versions.
+        //  if(rating == "general" || rating == "questionable" || rating == "sensitive" || rating == "explicit")  {
+        //      if(std::filesystem::exists(imgDir+rating)!= true) {
+        //          std::filesystem::create_directory(imgDir+rating);
+        //          std::filesystem::create_directory(imgDir+rating+"/"+tagString);
+        //          imgDir.append(rating+"/"+tagString+"/");
+        //          std::cout << imgDir << "\n";
+        //      } else {
+        //          if(std::filesystem::exists(imgDir+rating+"/"+tagString) != true) {
+        //              std::filesystem::create_directory(imgDir+rating+"/"+tagString);
+        //          }
+        //          imgDir.append(rating+"/"+tagString+"/");
+        //          std::cout << imgDir << "\n";
+        //      }
+        //  } else {
+        //      if(std::filesystem::exists(imgDir+"uncatagorized/") != true) {
+        //          std::filesystem::create_directory(imgDir+"uncatagorized/");
+        //          std::filesystem::create_directory(imgDir+"uncatagorized/"+tagString);
+        //          imgDir.append("uncatagorized/"+tagString+"/");
+        //          std::cout << imgDir <<  "\n";
+        //      } else {
+        //          if(std::filesystem::exists(imgDir+"uncatagorized/"+tagString) != true) {
+        //              std::filesystem::create_directory(imgDir+"uncatagorized/"+tagString);
+        //          }
+        //          imgDir.append("uncatagorized/"+tagString+"/");
+        //          std::cout << imgDir << "\n";
+        //      }
+        //  }
         
         // JSON time, Make a reader and data var.
         Json::Reader reader;
@@ -148,6 +166,20 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
         // Check each item in the array retrieved from CURL above, Download each image file and save it.
         if(count < 22) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
+                // NEW FOLDER CODE
+                if(std::filesystem::exists(imgDir+rating)!= true) {
+                    std::filesystem::create_directory(imgDir+rating);
+                    std::filesystem::create_directory(imgDir+rating+"/"+tagString);
+                    imgDir.append(rating+"/"+tagString+"/");
+                    std::cout << imgDir << "\n";
+                } else {
+                    if(std::filesystem::exists(imgDir+rating+"/"+tagString) != true) {
+                        std::filesystem::create_directory(imgDir+rating+"/"+tagString);
+                    }
+                    imgDir.append(rating+"/"+tagString+"/");
+                    std::cout << imgDir << "\n";
+                }
+
                 if(data[i].isMember("source_url")) { 
                     if(limit >= 1 && totalCount == limit) {
                         exit(0);
