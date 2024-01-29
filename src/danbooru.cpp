@@ -148,7 +148,7 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
         if(count < 22) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
                 // RATING SANITIZATION CODE
-                rating = data[i][rating].asString();
+                rating = data[i]["rating"].asString();
                 if(rating == "g") {
                     rating = "general";
                 }
