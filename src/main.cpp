@@ -46,11 +46,11 @@ int main(int argc, char *argv[])
             if(args[i] == "-h" || args[i] == "--help") {
                 CLI::commands::help();
                 return 0;
-            } else
+            }
             if(args[i] == "--version") {
                 CLI::commands::version(BUILDTYPE, VERSION);
                 return 0;
-            } else
+            }
             if(args[i] == "-l" || args[i] == "--limit") {
                 if(args[i+1] != "") {
                     limit = std::stoi(args[i+1]);
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
                     CLI::error();
                     std::cout << "No limit provided, Defaulting to unlimited.";
                 }
-            } else
+            }
             if (args[i] == "-r" || args[i] == "--rating") {
                 if(args[i+1] == "general" || args[i+1] == "questionable" || args[i+1] == "sensitive" || args[i+1] == "explicit") {
                     rating = args[i+1];
@@ -68,10 +68,10 @@ int main(int argc, char *argv[])
                     std::cout << "Invalid rating provided." << "\n";
                     return 1;
                 }
-            } else
+            }
             if(args[i] == "-o" || args[i] == "--out") {
                 
-            } else
+            }
             if(args[i] == "-t" || args[i] == "--tags") {
                 if(args[i+1] != "") {
                     std::cout << "Fetching Posts with tag(s): " << args[i+1] << "\n";
@@ -91,13 +91,12 @@ int main(int argc, char *argv[])
                     std::cout << "No tags provided, Please provide a comma seperated list of tags.\n";
                     return 1;
                 }
-            } else {
                 if(args.empty()) {
                     CLI::commands::help();
+                    CLI::error();
+                    std::cout << "Invalid command.\n";
+                    return 1;
                 }
-                CLI::error();
-                std::cout << "Invalid command.\n";
-                return 1;
             }
         }
     } else {
