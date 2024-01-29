@@ -53,20 +53,6 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
     // Good practice, I should put this into downloadImage().
     CURLcode res;
 
-    // RATING SANITIZATION CODE
-    if(rating == "g") {
-        rating = "general";
-    }
-    if(rating == "s") {
-        rating = "sensitive";
-    }
-    if(rating == "q") {
-        rating = "questionable";
-    }
-    if(rating == "e") {
-        rating = "explicit";
-    }
-
     // Initialize the data string;
     int totalCount = 0;
     int pageCount = 1;
@@ -166,7 +152,22 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
         // Check each item in the array retrieved from CURL above, Download each image file and save it.
         if(count < 22) {
             for(Json::Value::ArrayIndex i = 0; (i != data.size()); i++) {
-                // NEW FOLDER CODE
+                // RATING SANITIZATION CODE
+                rating = data[i][rating].asString();
+                if(rating == "g") {
+                    rating = "general";
+                }
+                if(rating == "s") {
+                    rating = "sensitive";
+                }
+                if(rating == "q") {
+                    rating = "questionable";
+                }
+                if(rating == "e") {
+                    rating = "explicit";
+                }
+
+                // NEW FOLDER SANITIZATION CODE
                 if(std::filesystem::exists(imgDir+rating)!= true) {
                     std::filesystem::create_directory(imgDir+rating);
                     std::filesystem::create_directory(imgDir+rating+"/"+tagString);
