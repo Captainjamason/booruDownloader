@@ -183,7 +183,7 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
                     if(limit >= 1 && totalCount == limit) {
                         exit(0);
                     }
-                    std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["large_file_url"] << "\n";
+                    std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["source_url"] << " - " << rating << "\n";
                     std::thread t1 (download::downloadImage,data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
                     std::thread t2 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
                     std::thread t3 (download::downloadImage, data[i]["source_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
@@ -221,7 +221,7 @@ void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, i
                     if(limit >= 1 && totalCount == limit) {
                         exit(0);
                     }
-                    std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["source"] << "\n";
+                    std::cout << totalCount << " " << count << " " << pageCount << " " << data[i]["large_file_url"] << " - " << rating << "\n";
                     download::downloadImage(data[i]["large_file_url"].asString(), imgDir, data[i]["id"].asString(), data[i]["file_ext"].asString());
                     count++;
                     totalCount++;
