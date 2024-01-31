@@ -62,7 +62,7 @@ else
 		sudo mkdir /etc/boorudownloader
 	fi
 	if ! [ -f /etc/boorudownloader ]; then
-		sudo cp ../exampleConfig /etc/boorudownloader/config
+		sudo cp ../exampleConfig.json /etc/boorudownloader/config.json
 	fi
 	echo "Installed!"
 	echo "Please copy example configuration from /etc/booruDownloader/config to ~/.config/booruDownloader/config"
