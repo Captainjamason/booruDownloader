@@ -36,9 +36,23 @@ if [[ $OSTYPE == freebsd* ]]; then
 	export CC=clang17
 	echo "setting CXX to clang++17"
 	export CXX=clang++17
+
+	clang17 --version
+	if ! [[ $? == 0 ]]; then
+		echo "'clang17' environment not found. Install?"
+		read -p '(y/n): ' installClangAnswer
+		if [[ installClangAnswer == "y" ]]; then
+			sudo pkg install clang17
+		elif [[ installClangAnswer == "n" ]]; then
+			exit 1
+		else 
+			echo "Answer cannot be blank, Exiting"
+			exit 1
+		fi
+	fi
 fi
 
-if ! [ -d ./build/ ]; then
+if ! [[ -d ./build/ ]]; then
 	echo "Build directory not found, Setting up now..."
 	meson setup build && cd ./build
 else 
