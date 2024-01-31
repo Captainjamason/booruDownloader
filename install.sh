@@ -5,16 +5,16 @@
 #	Jamason P Davis
 #	Copyright 2024.
 
+# Check for `sudo` or running as root.
+if [[ $EUID == 0 ]]; then
+	echo "No reason to run as root, exiting"
+	exit 1
+fi
 
-#	Check variables, I don't like specifiying only one location but it will have to do.
+# Check variables, I don't like specifiying only one location but it will have to do.
 if [[ $1 == "--uninstall" ]]; then
 	echo "Uninstalling..."
-	if ! [[ $EUID = 0 ]]; then
-		echo "Requiring elevation."
-		sudo rm -rf /usr/local/bin/boorudownloader
-	else
-		rm -rf /usr/local/bin/boorudownloader
-	fi
+	sudo rm -rf /usr/local/bin/boorudownloader
 	exit 0
 fi
 
@@ -31,27 +31,57 @@ if [[ $1 == "--clean" ]]; then
 	exit 0;
 fi
 
-if [[ $OSTYPE == freebsd* ]]; then
-	echo "OS: FreeBSD, setting CC to clang17..."
-	export CC=clang17
-	echo "setting CXX to clang++17"
-	export CXX=clang++17
 
-	clang17 --version
-	if ! [[ $? == 0 ]]; then
-		echo "'clang17' environment not found. Install?"
+# Check OS types and change variables as needed.
+if [[ $OSTYPE == freebsd* ]]; then
+	echo "OS: FreeBSD"
+	echo "setting CC to clang17..."
+	export CC=clang17
+	echo "setting CXX to clang++17..."
+	export CXX=clang++17
+elif [[ $OSTYPE == linux* ]]; then
+	echo "OS: Linux" 
+elif [[ $OSTYPE == darwin* ]]; then 
+	echo "OS: darwin"
+else 
+	echo "OS: `$OSTYPE`"
+	echo "OS is not defined in ./install.sh, Using default values..."
+	echo "If there is issues building please make an issue on github with your OS information..."
+fi
+
+
+
+# Build dependancy checking, woooo!
+
+CC --version
+if ! [[ $? == 0 ]]; then
+	# This is specific to freeBSD as it requires clang17 to build.
+	if [[ $OSTYPE == freebsd* ]]; then
+		echo "llvm17 environment not found. Install?"
 		read -p '(y/n): ' installClangAnswer
-		if [[ installClangAnswer == "y" ]]; then
-			sudo pkg install clang17
-		elif [[ installClangAnswer == "n" ]]; then
+		if [[ $installClangAnswer == "y" ]]; then
+			sudo pkg install llvm17
+		elif [[ $installClangAnswer == "n" ]]; then
 			exit 1
 		else 
 			echo "Answer cannot be blank, Exiting"
 			exit 1
 		fi
+	else
+		echo "C/CXX compiler not found. Exiting..."
+		exit 1
 	fi
 fi
 
+meson --version 
+if ! [[ $? == 0 ]]; then 
+	echo "'meson' not found, Exiting..."
+	exit 1
+fi
+
+
+
+# Check for build directory.
 if ! [[ -d ./build/ ]]; then
 	echo "Build directory not found, Setting up now..."
 	meson setup build && cd ./build
@@ -60,6 +90,7 @@ else
 	cd ./build
 fi
 
+# Compile and check for erorrs.
 meson compile
 if ! [[ $? == 0 ]]; then
 	echo "[ERROR] Build failed"
@@ -72,6 +103,10 @@ if [[  $1 == "--only-build" ]];  then
 else
 	echo "Installing, Requiring elevation to install to /usr/local/bin/ and /etc/."
 	sudo cp ./src/boorudownloader /usr/local/bin/boorudownloader
+	if ! [[ $? == 0 ]]; then 
+		exit 1
+	fi
+
 	if ! [ -d /etc/boorudownloader ]; then
 		sudo mkdir /etc/boorudownloader
 	fi
