@@ -15,6 +15,7 @@ fi
 if [[ $1 == "--uninstall" ]]; then
 	echo "Uninstalling..."
 	sudo rm -rf /usr/local/bin/boorudownloader
+	sudo rm -rf /etc/boorudownloader
 	exit 0
 fi
 
