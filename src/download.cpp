@@ -16,7 +16,7 @@ size_t writeImage(char *ptr, size_t size, size_t nmemb, void *userdata) {
     FILE* stream = (FILE*)userdata;
     // Check to make sure there *is* an incoming data stream.
     if(!stream) {
-        printf("No file stream\n");
+        printf("No file stream\n")
         return 1;
     }
     // Write data to the file opened in `downloadImage()` and return the written amount.

@@ -5,7 +5,20 @@
 #	Jamason P Davis
 #	Copyright 2024.
 
-if [[ $1 == "--clean-build" ]]; then
+
+#	Check variables, I don't like specifiying only one location but it will have to do.
+if [[ $1 == "--uninstall" ]]; then
+	echo "Uninstalling..."
+	if ! [[ $EUID = 0 ]]; then
+		echo "Requiring elevation."
+		sudo rm -rf /usr/local/bin/boorudownloader
+	else
+		rm -rf /usr/local/bin/boorudownloader
+	fi
+	exit 0
+fi
+
+if [[ $1 == "--rebuild" ]]; then
 	echo "Cleaning build directory..."
 	rm -rf ./build/
 	echo "Done! Proceeding to build..."
@@ -15,7 +28,7 @@ if [[ $1 == "--clean" ]]; then
 	echo "Cleaning build directory..."
 	rm -rf ./build/
 	echo "Done!"
-	exit
+	exit 0;
 fi
 
 if [[ $OSTYPE == freebsd* ]]; then
@@ -34,6 +47,11 @@ else
 fi
 
 meson compile
+if ! [[ $? == 0 ]]; then
+	echo "[ERROR] Build failed"
+	exit 1
+fi
+
 
 if [[  $1 == "--only-build" ]];  then
 	echo "All done."
@@ -47,5 +65,5 @@ else
 		sudo cp ../exampleConfig /etc/boorudownloader/config
 	fi
 	echo "Installed!"
-	echo "Please copy example configuration from /etc/boorudownloader/config to ~/.config/boorDownloader/config"
+	echo "Please copy example configuration from /etc/booruDownloader/config to ~/.config/booruDownloader/config"
 fi
