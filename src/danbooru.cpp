@@ -42,7 +42,7 @@ size_t writeFunc(void *contents, size_t size, size_t nmemb, void *userp) {
     return size*nmemb;
 }
 
-void danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, int limit, std::string rating) {
+int danbooruFetch::fetchPosts(bool testStatus, std::vector<std::string> tags, int limit, std::string rating) {
     // Build the URL.
     std::string url = buildUrl(testStatus, tags);
     if(rating != "") {

@@ -1,8 +1,6 @@
 source_files = [
     'main.cpp',
     'config.cpp',
-    'termcolor.cpp',
-    'termFuncs.cpp',
     'commands.cpp',
     'danbooru.cpp',
     'download.cpp'
