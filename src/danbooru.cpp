@@ -13,7 +13,6 @@
 #include <thread>
 #include <vector>
 #include "../include/danbooru.h"
-#include "../include/cli.h"
 #include "../include/download.h"
 using namespace booruDownloader;
 
