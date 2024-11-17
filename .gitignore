@@ -80,4 +80,5 @@ build/*
 .cache/*
 *.sw
 
-result/*
+./result/*.*
+result

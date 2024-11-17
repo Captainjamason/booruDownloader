@@ -1,16 +1,20 @@
-//      booruDownloader 
+//      booruDownloader - v2
 //      main.cpp
 //      Jamason P Davis
-//      Copyright 2023
+//      Copyright 2024
 //      <3
+
+#define VERBOSE = false
+#define VERSION = "0.2.0";
 
 // Project Includes
 #include <iostream>
-#include <curl/curl.h>
-#include <curl/easy.h>
-#include <json/value.h>
+#include "term.h"
+#include "args.h"
 
-
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+    boorudownloader::terminal term;
+    boorudownloader::argHandler args; 
+    term.initialize();
+    args.parseArgs(argc, argv);
 }
