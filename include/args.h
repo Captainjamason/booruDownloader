@@ -5,16 +5,14 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 namespace boorudownloader {
     class argHandler {
         public:
-        struct arg {
-            std::string trigShort;
-            std::string trigLong;
-            std::string var;
-        };
 
+        int callArg()
         void parseArgs(int argc, char *argv[]);
+        std::vector<std::string> args;
     };
 }
