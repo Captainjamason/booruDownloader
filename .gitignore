@@ -79,3 +79,5 @@ images/*
 build/*
 .cache/*
 *.sw
+
+result/*

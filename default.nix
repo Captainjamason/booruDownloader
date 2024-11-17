@@ -12,26 +12,24 @@ pkgs.stdenv.mkDerivation {
         pkgs.meson
         pkgs.ninja
         pkgs.pkg-config
+        pkgs.jsoncpp
+        pkgs.curl
     ];
 
     buildInputs = [
 
     ];
 
-    #configurePhase = "
-    #    meson setup $src $TMPDIR/build
-    #";
+    configurePhase = "
+        meson setup $src $TMPDIR/build
+    ";
 
-    #buildPhase = "
-    #    meson compile -C $TMPDIR/build
-    #";
+    buildPhase = "
+        meson compile -C $TMPDIR/build
+    ";
 
-    #installPhase = "
-    #    mkdir -p $out/lib
-	#    cp -rv $TMPDIR/build/src/libopencxx-cli.so $out/lib/
-    #    mkdir -p $out/include
-    #    cp -rv $src/include $out/include
-    #    cp -rv $TMPDIR/build/meson-private/opencxx-cli.pc $out/lib
-    #";
+    installPhase = "
+        cp -rv $TMPDIR/build $out
+    ";
 }
 
