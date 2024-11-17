@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <curl/curl.h>
 #include <json/json.h>
 #include "fetchData.h"
@@ -17,6 +18,8 @@ int count = 0;
 int pend = 0;
 int fail = 0;
 int done = 0;
+
+std::vector<std::string> downloadUrls;
     
 int boorudownloader::fetchData(int page) {
     CURL *curl;
@@ -52,9 +55,10 @@ int boorudownloader::fetchData(int page) {
             fail++;
         } else {
             pend++;
+            downloadUrls.push_back(data[i]["large_file_url"].asString());
         }
         std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
-        std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "\n";
+        std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                    \r";
 
         if(count % 200 == 0) {
            fetchData(page += 1);
@@ -62,4 +66,8 @@ int boorudownloader::fetchData(int page) {
     }
 
     return 0;
+}
+
+void boorudownloader::download() {
+    fetchData();
 }

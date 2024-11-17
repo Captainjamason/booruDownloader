@@ -20,6 +20,6 @@ int main(int argc, char *argv[]) {
 
     args.parseArgs(argc, argv);
 
-    boorudownloader::fetchData(1);
+    boorudownloader::download();
     //term.draw("test", 0, 0);
 }
