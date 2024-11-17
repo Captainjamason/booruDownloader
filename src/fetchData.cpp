@@ -7,6 +7,7 @@
 #include <vector>
 #include <curl/curl.h>
 #include <json/json.h>
+#include <thread>
 #include "fetchData.h"
 
 static size_t writeCallback(void *contents, size_t size, size_t nmemb, void *userp) {
@@ -57,8 +58,8 @@ int boorudownloader::fetchData(int page) {
             pend++;
             downloadUrls.push_back(data[i]["large_file_url"].asString());
         }
-        std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
-        std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                    \r";
+        std::cout <<"\x1b[0;0H\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
+        std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        ";
 
         if(count % 200 == 0) {
            fetchData(page += 1);
@@ -68,6 +69,17 @@ int boorudownloader::fetchData(int page) {
     return 0;
 }
 
+int downloadImage() {
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+
+    for (int num : downloadUrls) {
+
+    }
+}
+
 void boorudownloader::download() {
-    fetchData();
+    std::thread fetchThread(fetchData);
+    std::thread t1(downloadImage);
 }
