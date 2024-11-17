@@ -4,7 +4,7 @@
 //      Copyright 2024
 //      <3
 
-#define VERBOSE = false
+#define debug = false
 #define VERSION = "0.2.0";
 
 // Project Includes
