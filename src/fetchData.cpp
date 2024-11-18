@@ -15,6 +15,7 @@ static size_t writeCallback(void *contents, size_t size, size_t nmemb, void *use
     return size*nmemb;
 }
 
+int limit = 300;
 int count = 0;
 int pend = 0;
 int fail = 0;
@@ -55,8 +56,13 @@ int boorudownloader::fetchData(int page) {
         if(!data[i]["large_file_url"]) {
             fail++;
         } else {
-            pend++;
-            downloadUrls.push_back(data[i]["large_file_url"].asString());
+            if(count == limit+1) {
+                break;
+            } else {
+                pend++;
+                downloadUrls.push_back(data[i]["large_file_url"].asString());
+            }
+
         }
         std::cout <<"\x1b[0;0H\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
         std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        ";
@@ -66,6 +72,8 @@ int boorudownloader::fetchData(int page) {
         }
     }
 
+    std::cout << downloadUrls[0] << "\n";
+
     return 0;
 }
 
@@ -74,12 +82,10 @@ int downloadImage() {
     CURLcode res;
     std::string readBuffer;
 
-    for (int num : downloadUrls) {
-
-    }
+    std::cout << downloadUrls[0];
 }
 
 void boorudownloader::download() {
-    std::thread fetchThread(fetchData);
-    std::thread t1(downloadImage);
+    fetchData();
+    downloadImage();
 }
