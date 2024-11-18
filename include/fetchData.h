@@ -4,6 +4,6 @@
 
 #pragma once
 namespace boorudownloader {
-    int fetchData(int page = 1);
-    void download();
+    int fetchData(int page = 1, int limit = 5);
+    int download();
 }
