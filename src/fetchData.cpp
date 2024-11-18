@@ -72,8 +72,6 @@ int boorudownloader::fetchData(int page) {
         }
     }
 
-    std::cout << downloadUrls[0] << "\n";
-
     return 0;
 }
 
@@ -83,6 +81,8 @@ int downloadImage() {
     std::string readBuffer;
 
     std::cout << downloadUrls[0];
+
+    return 0;
 }
 
 void boorudownloader::download() {

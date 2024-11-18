@@ -81,4 +81,4 @@ build/*
 *.sw
 
 ./result/*.*
-result
+result./result
