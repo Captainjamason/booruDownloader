@@ -12,6 +12,9 @@
 #include <cmath>
 #include "download.h"
 #include "term.h"
+#include "args.h"
+
+boorudownloader::argHandler::argData argD;
 
 
 using boorudownloader::terminal;
@@ -98,7 +101,7 @@ int downloadImage(std::vector<std::string> vec) {
             fail++;
         }
 
-        terminal::progUpdate(pend, fail, done);
+        terminal::progUpdate(pend, fail, done, "Downloading: "+vec[i]+"     File: "+fn);
         //std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m  \r";
     }
 
@@ -110,9 +113,14 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     CURLcode res;
     std::string readBuffer;
     static std::vector<std::string> downloadUrls;
+    std::string url;
 
-
-    std::string url = "https://danbooru.donmai.us/posts.json?limit=200";
+    if(argD.test == true) {
+        std::string url = "https://testbooru.donmai.us/posts.json?limit=200";
+    } else {
+        std::string url = "https://danbooru.donmai.us/posts.json?limit=200";  
+    }
+    std::cout << url;
     url.append("&page="+std::to_string(page));
     url.append("&tags="+tags);
 

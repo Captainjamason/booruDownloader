@@ -5,11 +5,12 @@
 #include <iostream>
 #include <string>
 #include "term.h"
+#include "args.h"
 
 using boorudownloader::terminal;
 
 int terminal::initialize() {
-    std::cout << "\x1B[2J\x1b[H";
+    std::cout << "\x1B[2J\x1b[H\x1b[?25l";
     return 0;
 }
 
@@ -24,7 +25,10 @@ int terminal::error(std::string s) {
 }   
 
 int terminal::debugMessage(std::string s) {
-    std::cout << "\x1b[36;1m[ERR]:  \x1b[0m" << s << "\n";
+    boorudownloader::argHandler::argData argD;
+    if(argD.verbose == true) {
+        std::cout << "\x1b[36;1m[ERR]:  \x1b[0m" << s << "\n";
+    }
     return 0;
 }   
 

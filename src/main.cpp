@@ -5,7 +5,7 @@
 //      <3
 
 #define debug = true 
-#define VERSION = "0.2.0"
+#define VERSION = "0.2.1"
 
 // Project Includes
 #include <iostream>
