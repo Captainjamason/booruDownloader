@@ -109,8 +109,10 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
 
 
     std::string url = "https://testbooru.donmai.us/posts.json?limit=200";
-    url.append("&tags="+tags);
-    url.append("&&page="+page);
+    //url.append("&tags="+tags);
+    url.append("&page="+std::to_string(page));
+
+    std::cout << url << "\n";
 
     curl = curl_easy_init();
     if(curl) {
@@ -148,7 +150,7 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
         std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        ";
 
         if(count % 200 == 0) {
-           fetchData(tags, limit, page++);
+           fetchData(tags, limit, page += 1);
         }
         
 
