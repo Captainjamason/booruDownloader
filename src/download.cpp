@@ -58,11 +58,12 @@ int splitVec(std::vector<std::string> downloadUrls) {
     for(int i = q2; i >= q2 && i < downloadUrls.size(); i++) {
         vec4.push_back(downloadUrls[i]);
     }
+    downloadUrls.clear();
     std::cout << "\n" << "vec1: " << vec1.size() << "       vec2: " << vec2.size() << "       vec3: " << vec3.size() << "       vec4: " << vec4.size() <<"\n";
     return 0;
 }
     
-int downloadImage(std::vector<std::string> vec, int id) {
+int downloadImage(std::vector<std::string> vec) {
     CURLcode res;
     std::string readBuffer;
 
@@ -72,7 +73,9 @@ int downloadImage(std::vector<std::string> vec, int id) {
 
 
     for(int i = 0; i <= vec.size()-1; i++) {
-        std::string fn = "./images/"+std::to_string(id)+"_"+std::to_string(i)+vec[i].substr(vec[i].length() - 4);
+        std::hash<std::string> hash;
+
+        std::string fn = "./images/"+std::to_string(hash(vec[i]))+vec[i].substr(vec[i].length() - 4);
         FILE* fp = fopen(fn.c_str(), "wb");
 
         CURL *easy = curl_easy_init();
@@ -102,7 +105,7 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     CURL *curl;
     CURLcode res;
     std::string readBuffer;
-    std::vector<std::string> downloadUrls;
+    static std::vector<std::string> downloadUrls;
 
 
     std::string url = "https://testbooru.donmai.us/posts.json?limit=200";
@@ -156,11 +159,12 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
 
 
 int boorudownloader::download(std::string tags, int limit) {
-    splitVec(fetchData(tags, limit));
-    std::thread t1 (downloadImage, vec1, 1);
-    std::thread t2 (downloadImage, vec2, 2);
-    std::thread t3 (downloadImage, vec1, 3);
-    std::thread t4 (downloadImage, vec2, 4);
+    std::vector<std::string> urls = fetchData(tags, limit);
+    splitVec(urls);
+    std::thread t1 (downloadImage, vec1);
+    std::thread t2 (downloadImage, vec2);
+    std::thread t3 (downloadImage, vec3);
+    std::thread t4 (downloadImage, vec4);
     t1.join();
     t2.join();
     t3.join();
