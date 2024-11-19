@@ -1,4 +1,4 @@
-//  fetchData.cpp
+//  download.cpp
 //  booruDownloader v2
 //  JPD - 2024
 
@@ -10,7 +10,7 @@
 #include <json/json.h>
 #include <thread>
 #include <cmath>
-#include "fetchData.h"
+#include "download.h"
 
 static size_t writeCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     ((std::string*)userp)->append((char*)contents, size*nmemb);
@@ -36,13 +36,13 @@ int pend = 0;
 int fail = 0;
 int done = 0;
 
-std::vector<std::string> downloadUrls;
+
 std::vector<std::string> vec1;
 std::vector<std::string> vec2;
 std::vector<std::string> vec3;
 std::vector<std::string> vec4;
 
-int splitVec() {
+int splitVec(std::vector<std::string> downloadUrls) {
     int half = round(downloadUrls.size() / 2);
     int q1 = round(half / 2);
     int q2 = round(half / 2) + half;
@@ -98,14 +98,16 @@ int downloadImage(std::vector<std::string> vec, int id) {
     return 0;
 }
 
-int boorudownloader::fetchData(int page, int limit) {
+std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     CURL *curl;
     CURLcode res;
     std::string readBuffer;
+    std::vector<std::string> downloadUrls;
 
 
-    std::string url = "https://danbooru.donmai.us/posts.json?limit=200&tags=nakiri_ayame&page=";
-    url.append(std::to_string(page));
+    std::string url = "https://testbooru.donmai.us/posts.json?limit=200";
+    url.append("&tags="+tags);
+    url.append("&&page="+page);
 
     curl = curl_easy_init();
     if(curl) {
@@ -143,20 +145,18 @@ int boorudownloader::fetchData(int page, int limit) {
         std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        ";
 
         if(count % 200 == 0) {
-           fetchData(page += 1);
+           fetchData(tags, limit, page++);
         }
         
 
     }
-    return 0;
+    return downloadUrls;
 }
 
 
 
-int boorudownloader::download() {
-    fetchData(1, 200);
-    //downloadImage(downloadUrls);
-    splitVec();
+int boorudownloader::download(std::string tags, int limit) {
+    splitVec(fetchData(tags, limit));
     std::thread t1 (downloadImage, vec1, 1);
     std::thread t2 (downloadImage, vec2, 2);
     std::thread t3 (downloadImage, vec1, 3);

@@ -11,7 +11,7 @@
 #include <iostream>
 #include "term.h"
 #include "args.h"
-#include "fetchData.h"
+#include "download.h"
 
 int main(int argc, char *argv[]) {
     boorudownloader::terminal term;
@@ -20,6 +20,6 @@ int main(int argc, char *argv[]) {
 
     args.parseArgs(argc, argv);
 
-    boorudownloader::download();
+    boorudownloader::download("", 200);
     //term.draw("test", 0, 0);
 }
