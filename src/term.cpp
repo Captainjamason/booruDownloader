@@ -29,5 +29,6 @@ int terminal::debugMessage(std::string s) {
 }   
 
 int terminal::progUpdate(int pend, int err, int done, std::string s) {
-    std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<err<<"\x1b[0m/\x1b[32m"<<done<<"  |   "<<s<<"\x1b[0m         \r";
+    std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<err<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m   |   "<<s<<"\x1b[K\r";
+    return 0;
 }
