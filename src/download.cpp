@@ -11,7 +11,10 @@
 #include <thread>
 #include <cmath>
 #include "download.h"
+#include "term.h"
 
+
+using boorudownloader::terminal;
 static size_t writeCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     ((std::string*)userp)->append((char*)contents, size*nmemb);
     return size*nmemb;
@@ -95,7 +98,8 @@ int downloadImage(std::vector<std::string> vec) {
             fail++;
         }
 
-        std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m  \r";
+        terminal::progUpdate(pend, fail, done);
+        //std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m  \r";
     }
 
     return 0;

@@ -2,24 +2,32 @@
 //  booruDownloader v2
 //  JPD - 2024
 
-#include "term.h"
 #include <iostream>
 #include <string>
+#include "term.h"
 
 using boorudownloader::terminal;
 
-void resPos() {
-    std::cout << "\x1b[H";
-}
-
 int terminal::initialize() {
-    std::cout << "\x1B[2J";
-    resPos();
+    std::cout << "\x1B[2J\x1b[H";
     return 0;
 }
 
-int terminal::draw(std::string str, uint16_t x, uint16_t y) {
-    std::cout << "\x1B[ "<<x<<" ; "<<y<<" H";
-    std::cout << str;
-    resPos();
+int terminal::message(std::string s) {
+    std::cout << "\x1b[32;1m[INFO]: \x1b[0m" << s << "\n";
+    return 0;
+}
+
+int terminal::error(std::string s) {
+    std::cout << "\x1b[31;1m[ERR]:  \x1b[0m" << s << "\n";
+    return 0;
+}   
+
+int terminal::debugMessage(std::string s) {
+    std::cout << "\x1b[36;1m[ERR]:  \x1b[0m" << s << "\n";
+    return 0;
+}   
+
+int terminal::progUpdate(int pend, int err, int done, std::string s) {
+    std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<err<<"\x1b[0m/\x1b[32m"<<done<<"  |   "<<s<<"\x1b[0m         \r";
 }

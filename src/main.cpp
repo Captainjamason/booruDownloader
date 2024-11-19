@@ -27,8 +27,9 @@ std::string tagSanitize(std::string tags) {
 }
 
 int main(int argc, char *argv[]) {
-    boorudownloader::terminal term;
     boorudownloader::argHandler args; 
+
+    boorudownloader::terminal::initialize();
 
     boorudownloader::argHandler::argData argD = args.parseArgs(argc, argv);
     std::string tags = tagSanitize(argD.tags);

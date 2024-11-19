@@ -57,5 +57,8 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "C_Cpp.errorSquiggles": "disabled",
-  "C_Cpp.default.compilerPath": ""
+  "C_Cpp.default.compilerPath": "",
+  "cSpell.words": [
+    "boorudownloader"
+  ]
 }

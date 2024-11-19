@@ -9,7 +9,9 @@ namespace boorudownloader {
         public:
 
         struct argData {
-            int limit = 500000000;
+            bool verbose = false;
+            bool test = false;
+            int limit = 500000000;  /// Maybe make this configuration controlled in the future?
             std::string tags = "";
         };
 
