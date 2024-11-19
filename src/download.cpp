@@ -59,7 +59,7 @@ int splitVec(std::vector<std::string> downloadUrls) {
         vec4.push_back(downloadUrls[i]);
     }
     downloadUrls.clear();
-    std::cout << "\n" << "vec1: " << vec1.size() << "       vec2: " << vec2.size() << "       vec3: " << vec3.size() << "       vec4: " << vec4.size() <<"\n";
+    //std::cout << "\n" << "vec1: " << vec1.size() << "       vec2: " << vec2.size() << "       vec3: " << vec3.size() << "       vec4: " << vec4.size() <<"\n";
     return 0;
 }
     
@@ -95,7 +95,7 @@ int downloadImage(std::vector<std::string> vec) {
             fail++;
         }
 
-        std::cout <<"\x1b[0;0H\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m     \r";
+        std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m  \r";
     }
 
     return 0;
@@ -108,11 +108,11 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     static std::vector<std::string> downloadUrls;
 
 
-    std::string url = "https://testbooru.donmai.us/posts.json?limit=200";
-    //url.append("&tags="+tags);
+    std::string url = "https://danbooru.donmai.us/posts.json?limit=200";
     url.append("&page="+std::to_string(page));
+    url.append("&tags="+tags);
 
-    std::cout << url << "\n";
+    //std::cout << url << "\n";
 
     curl = curl_easy_init();
     if(curl) {
@@ -146,8 +146,8 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
             downloadUrls.push_back(data[i]["large_file_url"].asString());
         }
 
-        std::cout <<"\x1b[0;0H\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
-        std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        ";
+        std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
+        std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        \r";
 
         if(count % 200 == 0) {
            fetchData(tags, limit, page += 1);

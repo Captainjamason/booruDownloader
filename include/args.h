@@ -7,6 +7,12 @@
 namespace boorudownloader {
     class argHandler {
         public:
-        void parseArgs(int argc, char *argv[]);
+
+        struct argData {
+            int limit = 500000000;
+            std::string tags = "";
+        };
+
+        argData parseArgs(int argc, char *argv[]);
     };
 }
