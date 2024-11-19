@@ -25,14 +25,11 @@ int terminal::error(std::string s) {
 }   
 
 int terminal::debugMessage(std::string s) {
-    boorudownloader::argHandler::argData argD;
-    if(argD.verbose == true) {
-        std::cout << "\x1b[36;1m[ERR]:  \x1b[0m" << s << "\n";
-    }
+    std::cout << "\x1b[36;1m[DBG]:  \x1b[0m" << s << "\n";
     return 0;
 }   
 
 int terminal::progUpdate(int pend, int err, int done, std::string s) {
-    std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<err<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m   |   "<<s<<"\x1b[K\r";
+    std::cout <<"\x1b[33mPend: "<<pend<<" \x1b[0m/\x1b[31m Err: "<<err<<" \x1b[0m/\x1b[32m Done: "<<done<<"\x1b[0m   |   "<<s<<"\x1b[K\r";
     return 0;
 }

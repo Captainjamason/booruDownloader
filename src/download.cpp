@@ -113,22 +113,26 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     CURLcode res;
     std::string readBuffer;
     static std::vector<std::string> downloadUrls;
-    std::string url;
+    //std::string srv_url;
 
-    if(argD.test == true) {
-        std::string url = "https://testbooru.donmai.us/posts.json?limit=200";
-    } else {
-        std::string url = "https://danbooru.donmai.us/posts.json?limit=200";  
-    }
-    std::cout << url;
-    url.append("&page="+std::to_string(page));
-    url.append("&tags="+tags);
+    //if(test == true) {
+    //    url.append("https://testbooru.donmai.us/posts.json?limit=200");
+    //} else {
+    //    url.append("https://danbooru.donmai.us/posts.json?limit=200");  
+    //}
+
+
+    std::string srv_url = "https://testbooru.donmai.us/posts.json?limit=200";
+
+    srv_url.append("&page="+std::to_string(page));
+    srv_url.append("&tags="+tags);
 
     //std::cout << url << "\n";
-
+    //terminal::debugMessage("SERVER URL:  "+srv_url);
+    //terminal::message("Fetching tags: "+tags);
     curl = curl_easy_init();
     if(curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, srv_url.c_str());
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
@@ -158,8 +162,10 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
             downloadUrls.push_back(data[i]["large_file_url"].asString());
         }
 
-        std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
-        std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        \r";
+        //std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
+        //std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        \r";
+
+        terminal::progUpdate(pend, fail, done, "Fetching URL: "+data[i]["large_file_url"].asString()+"  ID: "+data[i]["id"].asString());
 
         if(count % 200 == 0) {
            fetchData(tags, limit, page += 1);
