@@ -13,6 +13,7 @@
 #include "download.h"
 #include "term.h"
 #include "args.h"
+#include "define.h"
 
 boorudownloader::argHandler::argData argD;
 
@@ -113,16 +114,17 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     CURLcode res;
     std::string readBuffer;
     static std::vector<std::string> downloadUrls;
-    //std::string srv_url;
+    std::string srv_url;
 
-    //if(test == true) {
-    //    url.append("https://testbooru.donmai.us/posts.json?limit=200");
-    //} else {
-    //    url.append("https://danbooru.donmai.us/posts.json?limit=200");  
-    //}
+    if(DEBUG == 1) {
+        terminal::debugMessage("Using testbooru...");
+        srv_url.append("https://testbooru.donmai.us/posts.json?limit=200");
+    } else {
+        srv_url.append("https://danbooru.donmai.us/posts.json?limit=200");  
+    }
 
 
-    std::string srv_url = "https://testbooru.donmai.us/posts.json?limit=200";
+    //srv_url.append("https://testbooru.donmai.us/posts.json?limit=200");
 
     srv_url.append("&page="+std::to_string(page));
     srv_url.append("&tags="+tags);
