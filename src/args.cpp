@@ -31,11 +31,13 @@ argHandler::argData argHandler::parseArgs(int argc, char *argv[]) {
         } 
         if(strcmp(argv[i], "--limit") == 0 || strcmp(argv[i], "-l") == 0) {
             argD.limit = std::stoi(argv[i+1]);
-            std::cout << "\x1b[32mLimit set to: " << argv[i+1] << "\x1b[0m\n";
+            //std::cout << "\x1b[32mLimit set to: " << argv[i+1] << "\x1b[0m\n";
+            terminal::message("Limit set to: "+std::to_string(argD.limit));
         }
         if(strcmp(argv[i], "--tags") == 0 || strcmp(argv[i], "-t") == 0) {
             argD.tags = argv[i+1];
-            std::cout << "\x1b[32mTags set to: " << argv[i+1] << "\x1b[0\n";
+            //std::cout << "\x1b[32mTags set to: " << argv[i+1] << "\x1b[0\n";
+            terminal::message("Filtering by tags: "+argD.tags);
         }
         if(strcmp(argv[i], "--test") == 0) {
             argD.test = true;
