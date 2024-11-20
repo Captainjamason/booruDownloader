@@ -1,0 +1,11 @@
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  steps:
+    uses: BSFishy/meson-build
+    with:
+      action: build
