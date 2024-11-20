@@ -2,6 +2,7 @@
 //  booruDownloader v2
 //  JPD - 2024
 
+// Includes.
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,15 +16,24 @@
 #include "args.h"
 #include "define.h"
 
-boorudownloader::argHandler::argData argD;
-
-
 using boorudownloader::terminal;
+
+// Some global variables, This could be done better.
+int count = 0;
+int pend = 0;
+int fail = 0;
+int done = 0;
+std::vector<std::string> vec1;
+std::vector<std::string> vec2;
+std::vector<std::string> vec3;
+std::vector<std::string> vec4;
+
+//  The callback for cURL in fetchData(); 
 static size_t writeCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     ((std::string*)userp)->append((char*)contents, size*nmemb);
     return size*nmemb;
 }
-
+// The callback for cURL in downloadImage();
 size_t writeImage(char *ptr, size_t size, size_t nmemb, void *userdata) {
     // Init `stream` variable to hold incoming data.
     FILE* stream = (FILE*)userdata;
@@ -37,18 +47,7 @@ size_t writeImage(char *ptr, size_t size, size_t nmemb, void *userdata) {
     return written;
 }
 
-
-int count = 0;
-int pend = 0;
-int fail = 0;
-int done = 0;
-
-
-std::vector<std::string> vec1;
-std::vector<std::string> vec2;
-std::vector<std::string> vec3;
-std::vector<std::string> vec4;
-
+// This takes a vector of URLS, adn splits it into quarters for each thread.
 int splitVec(std::vector<std::string> downloadUrls) {
     int half = round(downloadUrls.size() / 2);
     int q1 = round(half / 2);
@@ -66,14 +65,15 @@ int splitVec(std::vector<std::string> downloadUrls) {
         vec4.push_back(downloadUrls[i]);
     }
     downloadUrls.clear();
-    //std::cout << "\n" << "vec1: " << vec1.size() << "       vec2: " << vec2.size() << "       vec3: " << vec3.size() << "       vec4: " << vec4.size() <<"\n";
     return 0;
 }
-    
+
+// The primary worker for download threads. 
 int downloadImage(std::vector<std::string> vec) {
     CURLcode res;
     std::string readBuffer;
-
+    
+    // todo: add output folder argument and handling.
     if(std::filesystem::exists("./images") != true) {
         std::filesystem::create_directory("./images");
     }
@@ -103,12 +103,13 @@ int downloadImage(std::vector<std::string> vec) {
         }
 
         terminal::progUpdate(pend, fail, done, "Downloading: "+vec[i]+"     File: "+fn);
-        //std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m  \r";
     }
 
     return 0;
 }
 
+// Primary function used to fetch downloadable data. 
+// Please note that this is a recursive function.
 std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     CURL *curl;
     CURLcode res;
@@ -123,15 +124,9 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
         srv_url.append("https://danbooru.donmai.us/posts.json?limit=200");  
     }
 
-
-    //srv_url.append("https://testbooru.donmai.us/posts.json?limit=200");
-
     srv_url.append("&page="+std::to_string(page));
     srv_url.append("&tags="+tags);
 
-    //std::cout << url << "\n";
-    //terminal::debugMessage("SERVER URL:  "+srv_url);
-    //terminal::message("Fetching tags: "+tags);
     curl = curl_easy_init();
     if(curl) {
         curl_easy_setopt(curl, CURLOPT_URL, srv_url.c_str());
@@ -164,9 +159,6 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
             downloadUrls.push_back(data[i]["large_file_url"].asString());
         }
 
-        //std::cout <<"\x1b[33m"<<pend<<"\x1b[0m/\x1b[31m"<<fail<<"\x1b[0m/\x1b[32m"<<done<<"\x1b[0m       ";
-        //std::cout << "ID: " << data[i]["id"] << "       URL: " << data[i]["large_file_url"] << "                        \r";
-
         terminal::progUpdate(pend, fail, done, "Fetching URL: "+data[i]["large_file_url"].asString()+"  ID: "+data[i]["id"].asString());
 
         if(count % 200 == 0) {
@@ -179,7 +171,7 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
 }
 
 
-
+// This is the "public" function that organizes everything and gets it all going.
 int boorudownloader::download(std::string tags, int limit) {
     std::vector<std::string> urls = fetchData(tags, limit);
     splitVec(urls);

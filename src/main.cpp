@@ -1,25 +1,18 @@
-//      booruDownloader - v2
-//      main.cpp
-//      Jamason P Davis
-//      Copyright 2024
-//      <3
+//  main.cpp
+//  booruDownloader v2
+//  JPD - 2024
 
-
-// Project Includes
-#include <iostream>
-#include <algorithm>
-#include <string>
+// Includes 
 #include "term.h"
 #include "args.h"
 #include "download.h"
 
+using namespace boorudownloader;
 int main(int argc, char *argv[]) {
-    boorudownloader::argHandler args; 
+    argHandler args;                                            /// Create our class for arguments.
 
-    boorudownloader::terminal::initialize();
-
-    boorudownloader::argHandler::argData argD = args.parseArgs(argc, argv);
-
-    boorudownloader::download(argD.tags, argD.limit);
-    std::cout << "\x1b[?25h\n";
+    terminal::initialize();                                     /// Initialize the terminal.
+    argHandler::argData argD = args.parseArgs(argc, argv);      /// Create our struct, and parse all arguments.
+    download(argD.tags, argD.limit);                            /// Call the download function with arguments.
+    terminal::release();                                        /// Release the terminal.
 }

@@ -10,6 +10,7 @@ namespace boorudownloader {
     class terminal {
         public:
         static int initialize();
+        static int release();
         static int message(std::string s);
         static int error(std::string s);
         static int debugMessage(std::string s); 
