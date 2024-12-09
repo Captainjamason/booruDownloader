@@ -1,38 +1,21 @@
-//      booruDownloader - v2
-//      main.cpp
-//      Jamason P Davis
-//      Copyright 2024
-//      <3
+//  main.cpp
+//  booruDownloader v2
+//  JPD - 2024
 
-#define debug = true 
-#define VERSION = "0.2.0"
-
-// Project Includes
-#include <iostream>
-#include <algorithm>
-#include <string>
+// Includes 
 #include "term.h"
 #include "args.h"
 #include "download.h"
+#include "define.h"
 
-std::string tagSanitize(std::string tags) {
-    size_t pos = 0;
-    std::string toReplace = ",";
-    std::string replace = "%20";
-    while((pos = tags.find(toReplace, pos)) != std::string::npos) {
-        tags.replace(pos, toReplace.length(), replace);
-        pos += replace.length();
-    }
-    return tags;
-}
-
+using namespace boorudownloader;
 int main(int argc, char *argv[]) {
-    boorudownloader::terminal term;
-    boorudownloader::argHandler args; 
-
-    boorudownloader::argHandler::argData argD = args.parseArgs(argc, argv);
-    std::string tags = tagSanitize(argD.tags);
-
-    boorudownloader::download(tags, argD.limit);
-    std::cout << "\n";
+    argHandler args;                                            /// Create our class for arguments.
+    terminal::initialize();                                     /// Initialize the terminal.
+    if(DEBUG == 1) {                                            /// Check for debug flag
+        terminal::debugMessage("Using testbooru...");
+    }
+    argHandler::argData argD = args.parseArgs(argc, argv);      /// Create our struct, and parse all arguments.
+    download(argD.tags, argD.limit, argD.out);                  /// Call the download function with arguments.
+    terminal::release();                                        /// Release the terminal.
 }

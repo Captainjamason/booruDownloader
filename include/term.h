@@ -9,14 +9,11 @@
 namespace boorudownloader {
     class terminal {
         public:
-
-        //  Initial two functions for terminal drawing.
-        int initialize();
-        int draw(std::string str, uint16_t x = 0, uint16_t y = 0);
-
-        // Our actual data drawing functions.
-        int drawProgBar();
-        int drawText(std::string str);
-        int debugPrint(std::string str);
+        static int initialize();
+        static int release();
+        static int message(std::string s);
+        static int error(std::string s);
+        static int debugMessage(std::string s); 
+        static int progUpdate(int pend, int err, int done, std::string s = "");
     };
 }

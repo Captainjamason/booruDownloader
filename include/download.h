@@ -4,5 +4,5 @@
 
 #pragma once
 namespace boorudownloader {
-    int download(std::string tags, int limit);
+    int download(std::string tags, int limit, std::string out);
 }
