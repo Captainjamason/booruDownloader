@@ -52,6 +52,10 @@ argHandler::argData argHandler::parseArgs(int argc, char *argv[]) {
             argD.tags = tagSanitize(argD.tags);
             terminal::message("Filtering by tags: "+argD.tags);
         }
+        if(strcmp(argv[i], "--out") == 0 || strcmp(argv[i], "-o") == 0) {
+            argD.out = argv[i+1];
+            terminal::message("Output directory: "+argD.out);
+        }
     };
     return argD;
 }

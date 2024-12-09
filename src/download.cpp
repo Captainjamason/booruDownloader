@@ -27,6 +27,7 @@ std::vector<std::string> vec1;
 std::vector<std::string> vec2;
 std::vector<std::string> vec3;
 std::vector<std::string> vec4;
+std::string outDir;
 
 //  The callback for cURL in fetchData(); 
 static size_t writeCallback(void *contents, size_t size, size_t nmemb, void *userp) {
@@ -74,15 +75,15 @@ int downloadImage(std::vector<std::string> vec) {
     std::string readBuffer;
     
     // todo: add output folder argument and handling.
-    if(std::filesystem::exists("./images") != true) {
-        std::filesystem::create_directory("./images");
+    if(std::filesystem::exists(outDir) != true) {
+        std::filesystem::create_directory(outDir);
     }
 
 
     for(int i = 0; i <= vec.size()-1; i++) {
         std::hash<std::string> hash;
 
-        std::string fn = "./images/"+std::to_string(hash(vec[i]))+vec[i].substr(vec[i].length() - 4);
+        std::string fn = outDir+"/"+std::to_string(hash(vec[i]))+vec[i].substr(vec[i].length() - 4);
         FILE* fp = fopen(fn.c_str(), "wb");
 
         CURL *easy = curl_easy_init();
@@ -171,7 +172,8 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
 
 
 // This is the "public" function that organizes everything and gets it all going.
-int boorudownloader::download(std::string tags, int limit) {
+int boorudownloader::download(std::string tags, int limit, std::string out) {
+    outDir = out;
     std::vector<std::string> urls = fetchData(tags, limit);
     splitVec(urls);
     std::thread t1 (downloadImage, vec1);

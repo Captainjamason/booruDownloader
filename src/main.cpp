@@ -16,6 +16,6 @@ int main(int argc, char *argv[]) {
         terminal::debugMessage("Using testbooru...");
     }
     argHandler::argData argD = args.parseArgs(argc, argv);      /// Create our struct, and parse all arguments.
-    download(argD.tags, argD.limit);                            /// Call the download function with arguments.
+    download(argD.tags, argD.limit, argD.out);                            /// Call the download function with arguments.
     terminal::release();                                        /// Release the terminal.
 }
