@@ -1,29 +1,33 @@
-# booruDownloader
+#   booruDownloader
 
 A lightweight cross-platform C++ program for downloading images in bulk from imageboard sites.
 
-## Features:
+##  Roadmap
+- [x] Multithreaded downloading.
+  - This system could still use some tweaking and fixes, Feel free to modify!
+- [ ] Configuration File.
+- [ ] Automatic folder sorting.
+- [ ] Multiple server support. 
 
-*Still working on it...*
 
-## Requirements
+##  Requirements
 
 * `libcurl >= 8.5.0`
 * `jsoncpp >= 1.9.5`
 * `meson >= 1.4.2`
 
 
-## Build Instructions:
-### Nix:
+##  Build Instructions:
+###     Nix:
 There is already a premade, ready to use nix derivate stored in the root. Clone the repository and run `nix-build`. Output will instead be in `./results/build/src/boorudownloader`.
 
-### Manual Route:
+###     Manual Route:
 - `meson setup build && meson compile -C build`
 Output will be in `./build/src/boorudownloader`.
 
 ---
 
-## Configuration:
+##  Configuration:
 
 *Nothing here yet...*
 

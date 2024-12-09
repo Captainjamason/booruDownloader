@@ -1,6 +1,0 @@
- - Arguments.
-   - `-v` Verbose.
-   - `-h` Help.
-   - `-l` Limit.
-   - `-s` Server.
-   - `-d` Directory, default `./booru_out`.

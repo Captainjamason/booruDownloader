@@ -117,8 +117,7 @@ std::vector<std::string> fetchData(std::string tags, int limit, int page = 1) {
     static std::vector<std::string> downloadUrls;
     std::string srv_url;
 
-    if(DEBUG == 1) {
-        terminal::debugMessage("Using testbooru...");
+    if(DEBUG == 1) { 
         srv_url.append("https://testbooru.donmai.us/posts.json?limit=200");
     } else {
         srv_url.append("https://danbooru.donmai.us/posts.json?limit=200");  
