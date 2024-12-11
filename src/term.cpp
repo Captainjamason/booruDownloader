@@ -33,6 +33,21 @@ int terminal::debugMessage(std::string s) {
     }
     return 0;
 }   
+bool terminal::prompt(std::string s) {
+    bool r;
+    std::string i; 
+
+    std::cout << " \x1b[0m" << s << "[y/n]:\x1b[?25h ";
+    std::cin >> i;
+    if(i == "y") {
+        r = true;
+    } else {
+        r = false;
+    }
+    std::cout << "\x1b[?25l\n";
+
+    return 0;
+}
 
 /// This function is the primary progress function of program.
 int terminal::progUpdate(int pend, int err, int done, std::string s) {

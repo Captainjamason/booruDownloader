@@ -15,5 +15,6 @@ namespace boorudownloader {
         static int error(std::string s);
         static int debugMessage(std::string s); 
         static int progUpdate(int pend, int err, int done, std::string s = "");
+        static bool prompt(std::string s);
     };
 }
