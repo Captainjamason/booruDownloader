@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "args.h"
 #include "term.h"
+#include "define.h"
 
 // For readability sake.
 using boorudownloader::argHandler;
@@ -22,8 +23,20 @@ int enableVerbose() {
     return 0;
 }
 int help() {
-    std::cout << "help test\n";     /// Placeholder.
-    return 0;
+    std::cout << 
+    "booruDownloader\n" <<
+    "Version: " << VER << "\n" <<
+    "2024 - JPD\n" <<
+    "Made with love <3\n\n" <<
+    "HELP:\n" <<
+    "Command usage: `boorudownloader {arguments}`\n" <<
+    "Arguments:\n" <<
+    "-h / --help: Print this menu.\n" <<
+    "-v / --verbose: Print all messages and updates to console.\n" <<
+    "-l / --limit: Set a limit for media to fetch. Usage: `-l 50`\n" <<
+    "-t / --tags: Set tags to search by. To filter by multiple tags, use comma separation.\n" <<
+    "-o / --out: Specify output directory.\n";
+    exit(0);
 }
 std::string tagSanitize(std::string tags) {
     size_t pos = 0;
@@ -40,6 +53,9 @@ std::string tagSanitize(std::string tags) {
 argHandler::argData argHandler::parseArgs(int argc, char *argv[]) {
     argHandler::argData argD;
     for(int i = 0; i < argc; i++) {
+        if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+            help();
+        }
         if(strcmp(argv[i], "--verbose") == 0 || strcmp(argv[i], "-v") == 0) {
             enableVerbose();
         } 
