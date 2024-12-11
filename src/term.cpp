@@ -37,7 +37,7 @@ bool terminal::prompt(std::string s) {
     bool r;
     std::string i; 
 
-    std::cout << " \x1b[0m" << s << "[y/n]:\x1b[?25h ";
+    std::cout << "\x1b[0m" << s << " [y/n]:\x1b[?25h ";
     std::cin >> i;
     if(i == "y") {
         r = true;
@@ -46,7 +46,7 @@ bool terminal::prompt(std::string s) {
     }
     std::cout << "\x1b[?25l\n";
 
-    return 0;
+    return r;
 }
 
 /// This function is the primary progress function of program.
