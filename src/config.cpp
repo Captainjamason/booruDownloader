@@ -12,10 +12,10 @@ using boorudownloader::config;
 using boorudownloader::terminal;
 
 config::confData config::loadConfig(std::string path) {
-    if(std::filesystem::exists(path) == true) {
+    if(std::filesystem::exists(path.c_str()) == true) {
         terminal::debugMessage("Using config: "+path);
     } else {
-        terminal::error("Could not locate configuration file: "+path);
+        terminal::error("Could not locate config file: "+path);
         exit(1);
     }
 }
