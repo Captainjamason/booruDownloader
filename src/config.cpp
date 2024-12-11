@@ -20,7 +20,13 @@ int genConfig(std::string fullPath) {
     }
     std::ofstream file(path);
     if(file) {
-        file << "test\n";
+        file << 
+        "{\n" <<
+        "   \"limit_default\": 3000,\n"<<
+        "   \"limit_hard\": 1000000000,\n"<<
+        "   \"default_out\": \"./out\",\n"<<
+        "   \"sort_by\": \"none\"\n"<<
+        "}";
         terminal::message("Default configuration saved at: "+fullPath);
     } else {
         terminal::error("Could not create configuration file!");
