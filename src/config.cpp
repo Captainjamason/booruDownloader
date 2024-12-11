@@ -22,8 +22,7 @@ int genConfig(std::string fullPath) {
     if(file) {
         file << 
         "{\n" <<
-        "   \"limit_default\": 3000,\n"<<
-        "   \"limit_hard\": 1000000000,\n"<<
+        "   \"limit_default\": 1000000000,\n"<<
         "   \"default_out\": \"./out\",\n"<<
         "   \"sort_by\": \"none\"\n"<<
         "}";
@@ -42,9 +41,30 @@ config::confData config::loadConfig(std::string path) {
     std::string nPath = home+"/"+path;
 
     if(std::filesystem::exists(nPath) == true) {
-        terminal::debugMessage("Using config: "+nPath);
         config::confData conf;
-        return conf;
+        terminal::debugMessage("Attempting to use config: "+nPath);
+
+        std::ifstream file(nPath);
+        Json::Reader reader;
+        Json::Value data;
+        if(file.is_open()) {
+            if(!reader.parse(file, data)) {
+                terminal::error("Could not parse configuration file!");
+                exit(1);
+            };
+        }
+        file.close();
+
+        if(data["limit_default"]) {
+            terminal::debugMessage("Using config: "+nPath);
+            terminal::debugMessage("Default Limit: "+data["limit_default"].asString());
+            conf.limit_default = data["limit_default"].asInt();
+            terminal::debugMessage("Default output: "+data["default_out"].asString());
+            conf.default_out = data["default_out"].asString();
+            terminal::debugMessage("Folder Sorting: "+data["sort_by"].asString());
+            conf.sortby = data["sort_by"].asString();
+            return conf;
+        }
     } else {
         terminal::error("Could not locate config file: "+nPath);
         if(terminal::prompt("Would you like to create one now?")) {

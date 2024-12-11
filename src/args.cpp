@@ -58,7 +58,6 @@ argHandler::argData argHandler::parseArgs(int argc, char *argv[]) {
         } 
         if(strcmp(argv[i], "--limit") == 0 || strcmp(argv[i], "-l") == 0) {
             argD.limit = std::stoi(argv[i+1]);
-            terminal::message("Limit set to: "+std::to_string(argD.limit));
         }
         if(strcmp(argv[i], "--tags") == 0 || strcmp(argv[i], "-t") == 0) {
             argD.tags = argv[i+1];
@@ -67,7 +66,7 @@ argHandler::argData argHandler::parseArgs(int argc, char *argv[]) {
         }
         if(strcmp(argv[i], "--out") == 0 || strcmp(argv[i], "-o") == 0) {
             argD.out = argv[i+1];
-            terminal::message("Output directory: "+argD.out);
+
         }
     };
     return argD;

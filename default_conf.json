@@ -1,6 +1,5 @@
 {
     "limit_default": 3000,
-    "limit_hard": 1000000000,
     "default_out": "./out",
     "sort_by": "none"
 }

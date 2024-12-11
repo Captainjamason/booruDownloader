@@ -17,7 +17,17 @@ int main(int argc, char *argv[]) {
     terminal::initialize();                                     /// Initialize the terminal.
 
     argHandler::argData argD = args.parseArgs(argc, argv);      /// Create our struct, and parse all arguments.
-    conf.loadConfig(argD.configPath);
+    config::confData c = conf.loadConfig(argD.configPath);
+    if(argD.limit == 0) {
+        argD.limit = c.limit_default;
+    } else {
+        terminal::message("Limit set to: "+std::to_string(argD.limit));
+    }
+    if(argD.out == "") {
+        argD.out = c.default_out;
+    } else {
+        terminal::message("Output directory: "+argD.out);
+    }
     if(DEBUG == 1) {                                            /// Check for debug flag
         terminal::debugMessage("Using testbooru...");
     }
