@@ -5,15 +5,14 @@
 #pragma once
 
 namespace boorudownloader {
+    extern bool verbose;
     class argHandler {
         public:
-
         struct argData {
-            bool verbose = false;
-            bool test = false;
-            int limit = 500000000;  /// Maybe make this configuration controlled in the future?
-            std::string tags = "";
-            std::string out = "./out";
+            int limit = 0;  /// Maybe make this configuration controlled in the future?
+            std::string tags;
+            std::string out = "";
+            std::string configPath = ".config/boorudownloader/boorudownloader.cfg";
         };
 
         argData parseArgs(int argc, char *argv[]);

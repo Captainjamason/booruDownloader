@@ -2,7 +2,8 @@ source_files = [
     'main.cpp', 
     'term.cpp',
     'args.cpp',
-    'download.cpp'
+    'download.cpp',
+    'config.cpp'
 ]
 
 boorudownloader = executable('boorudownloader',

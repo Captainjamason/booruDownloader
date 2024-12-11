@@ -10,12 +10,11 @@ namespace boorudownloader {
         struct confData {
             // Limit options
             int limit_default;
-            int limit_hard;
             // Default out directory
             std::string default_out;
             // Sorting
             std::string sortby;     /// 'none', 'batch', 'artist', 'rating' 
-        }
+        };
         confData loadConfig(std::string path);
-    }
+    };
 }
