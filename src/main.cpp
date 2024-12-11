@@ -10,6 +10,7 @@
 #include "config.h"
 
 using namespace boorudownloader;
+bool boorudownloader::verbose = false;
 int main(int argc, char *argv[]) {
     config conf; 
     argHandler args;                                            /// Create our class for arguments.
@@ -21,6 +22,6 @@ int main(int argc, char *argv[]) {
         terminal::debugMessage("Using testbooru...");
     }
     download(argD.tags, argD.limit, argD.out);                  /// Call the download function with arguments.
-    
+
     terminal::release();                                        /// Release the terminal.
 }

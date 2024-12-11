@@ -5,7 +5,7 @@
 #pragma once
 
 namespace boorudownloader {
-    extern bool verbose = false;
+    extern bool verbose;
     class argHandler {
         public:
         struct argData {

@@ -28,7 +28,7 @@ int terminal::error(std::string s) {
     return 0;
 }   
 int terminal::debugMessage(std::string s) {
-    if(boorudownloader::verbose == true) {
+    if(verbose == true) {
         std::cout << "\x1b[36;1m[DBG]:  \x1b[0m" << s << "\n";
     }
     return 0;

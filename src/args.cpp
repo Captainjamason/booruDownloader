@@ -11,12 +11,10 @@
 #include "term.h"
 #include "define.h"
 
-// For readability sake.
-using boorudownloader::argHandler;
-using boorudownloader::terminal;
-
+using namespace boorudownloader;
 // Argument functions.
 int enableVerbose() {
+    verbose = true;
     terminal::debugMessage("Verbose enabled.");
     return 0;
 }
