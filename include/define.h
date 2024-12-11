@@ -7,4 +7,4 @@
 #pragma once
 
 #define VER "0.2.2"
-#define DEBUG 1 
+#define DEBUG 0 
