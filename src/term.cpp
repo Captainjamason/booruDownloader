@@ -44,7 +44,7 @@ bool terminal::prompt(std::string s) {
     } else {
         r = false;
     }
-    std::cout << "\x1b[?25l\n";
+    std::cout << "\x1b[?25l";
 
     return r;
 }
