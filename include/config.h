@@ -15,7 +15,8 @@ namespace boorudownloader {
             std::string default_out;
             // Sorting
             std::string sortby;     /// 'none', 'batch', 'artist', 'rating' 
-        }
+        };
         confData loadConfig(std::string path);
-    }
+        int genConfig(std::string path);
+    };
 }

@@ -17,11 +17,10 @@ using boorudownloader::terminal;
 
 // Argument functions.
 int enableVerbose() {
-    argHandler::argData argD;
-    argD.verbose = true;
-    terminal::message("Verbose enabled.");
+    terminal::debugMessage("Verbose enabled.");
     return 0;
 }
+
 int help() {
     std::cout << 
     "booruDownloader\n" <<
